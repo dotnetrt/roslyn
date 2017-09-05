@@ -16,6 +16,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             {
                 return SyntaxFactory.Token(SyntaxKind.RefKeyword);
             }
+            if (refKind == RefKind.Const)
+            {
+                return SyntaxFactory.Token(SyntaxKind.ConstKeyword);
+            }
             return default(SyntaxToken);
         }
 
@@ -27,6 +31,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                     return RefKind.Ref;
                 case SyntaxKind.OutKeyword:
                     return RefKind.Out;
+                case SyntaxKind.ConstKeyword:
+                    return RefKind.Const;
                 case SyntaxKind.None:
                     return RefKind.None;
                 default:

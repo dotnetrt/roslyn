@@ -5808,10 +5808,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
   internal sealed partial class ArgumentSyntax : CSharpSyntaxNode
   {
     internal readonly NameColonSyntax nameColon;
-    internal readonly SyntaxToken refOrOutKeyword;
+    internal readonly SyntaxToken refOrOutOrConstKeyword;
     internal readonly ExpressionSyntax expression;
 
-    internal ArgumentSyntax(SyntaxKind kind, NameColonSyntax nameColon, SyntaxToken refOrOutKeyword, ExpressionSyntax expression, DiagnosticInfo[] diagnostics, SyntaxAnnotation[] annotations)
+    internal ArgumentSyntax(SyntaxKind kind, NameColonSyntax nameColon, SyntaxToken refOrOutOrConstKeyword, ExpressionSyntax expression, DiagnosticInfo[] diagnostics, SyntaxAnnotation[] annotations)
         : base(kind, diagnostics, annotations)
     {
         this.SlotCount = 3;
@@ -5820,17 +5820,17 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
             this.AdjustFlagsAndWidth(nameColon);
             this.nameColon = nameColon;
         }
-        if (refOrOutKeyword != null)
+        if (refOrOutOrConstKeyword != null)
         {
-            this.AdjustFlagsAndWidth(refOrOutKeyword);
-            this.refOrOutKeyword = refOrOutKeyword;
+            this.AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+            this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
         }
         this.AdjustFlagsAndWidth(expression);
         this.expression = expression;
     }
 
 
-    internal ArgumentSyntax(SyntaxKind kind, NameColonSyntax nameColon, SyntaxToken refOrOutKeyword, ExpressionSyntax expression, SyntaxFactoryContext context)
+    internal ArgumentSyntax(SyntaxKind kind, NameColonSyntax nameColon, SyntaxToken refOrOutOrConstKeyword, ExpressionSyntax expression, SyntaxFactoryContext context)
         : base(kind)
     {
         this.SetFactoryContext(context);
@@ -5840,17 +5840,17 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
             this.AdjustFlagsAndWidth(nameColon);
             this.nameColon = nameColon;
         }
-        if (refOrOutKeyword != null)
+        if (refOrOutOrConstKeyword != null)
         {
-            this.AdjustFlagsAndWidth(refOrOutKeyword);
-            this.refOrOutKeyword = refOrOutKeyword;
+            this.AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+            this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
         }
         this.AdjustFlagsAndWidth(expression);
         this.expression = expression;
     }
 
 
-    internal ArgumentSyntax(SyntaxKind kind, NameColonSyntax nameColon, SyntaxToken refOrOutKeyword, ExpressionSyntax expression)
+    internal ArgumentSyntax(SyntaxKind kind, NameColonSyntax nameColon, SyntaxToken refOrOutOrConstKeyword, ExpressionSyntax expression)
         : base(kind)
     {
         this.SlotCount = 3;
@@ -5859,10 +5859,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
             this.AdjustFlagsAndWidth(nameColon);
             this.nameColon = nameColon;
         }
-        if (refOrOutKeyword != null)
+        if (refOrOutOrConstKeyword != null)
         {
-            this.AdjustFlagsAndWidth(refOrOutKeyword);
-            this.refOrOutKeyword = refOrOutKeyword;
+            this.AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+            this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
         }
         this.AdjustFlagsAndWidth(expression);
         this.expression = expression;
@@ -5870,8 +5870,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
     /// <summary>NameColonSyntax node representing the optional name arguments.</summary>
     public NameColonSyntax NameColon { get { return this.nameColon; } }
-    /// <summary>SyntaxToken representing the optional ref or out keyword.</summary>
-    public SyntaxToken RefOrOutKeyword { get { return this.refOrOutKeyword; } }
+    /// <summary>SyntaxToken representing the optional ref, out or const keyword.</summary>
+    public SyntaxToken RefOrOutOrConstKeyword { get { return this.refOrOutOrConstKeyword; } }
     /// <summary>ExpressionSyntax node representing the argument.</summary>
     public ExpressionSyntax Expression { get { return this.expression; } }
 
@@ -5880,7 +5880,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         switch (index)
         {
             case 0: return this.nameColon;
-            case 1: return this.refOrOutKeyword;
+            case 1: return this.refOrOutOrConstKeyword;
             case 2: return this.expression;
             default: return null;
         }
@@ -5901,11 +5901,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         visitor.VisitArgument(this);
     }
 
-    public ArgumentSyntax Update(NameColonSyntax nameColon, SyntaxToken refOrOutKeyword, ExpressionSyntax expression)
+    public ArgumentSyntax Update(NameColonSyntax nameColon, SyntaxToken refOrOutOrConstKeyword, ExpressionSyntax expression)
     {
-        if (nameColon != this.NameColon || refOrOutKeyword != this.RefOrOutKeyword || expression != this.Expression)
+        if (nameColon != this.NameColon || refOrOutOrConstKeyword != this.RefOrOutOrConstKeyword || expression != this.Expression)
         {
-            var newNode = SyntaxFactory.Argument(nameColon, refOrOutKeyword, expression);
+            var newNode = SyntaxFactory.Argument(nameColon, refOrOutOrConstKeyword, expression);
             var diags = this.GetDiagnostics();
             if (diags != null && diags.Length > 0)
                newNode = newNode.WithDiagnosticsGreen(diags);
@@ -5920,12 +5920,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
     internal override GreenNode SetDiagnostics(DiagnosticInfo[] diagnostics)
     {
-         return new ArgumentSyntax(this.Kind, this.nameColon, this.refOrOutKeyword, this.expression, diagnostics, GetAnnotations());
+         return new ArgumentSyntax(this.Kind, this.nameColon, this.refOrOutOrConstKeyword, this.expression, diagnostics, GetAnnotations());
     }
 
     internal override GreenNode SetAnnotations(SyntaxAnnotation[] annotations)
     {
-         return new ArgumentSyntax(this.Kind, this.nameColon, this.refOrOutKeyword, this.expression, GetDiagnostics(), annotations);
+         return new ArgumentSyntax(this.Kind, this.nameColon, this.refOrOutOrConstKeyword, this.expression, GetDiagnostics(), annotations);
     }
 
     internal ArgumentSyntax(ObjectReader reader)
@@ -5938,11 +5938,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
          AdjustFlagsAndWidth(nameColon);
          this.nameColon = nameColon;
       }
-      var refOrOutKeyword = (SyntaxToken)reader.ReadValue();
-      if (refOrOutKeyword != null)
+      var refOrOutOrConstKeyword = (SyntaxToken)reader.ReadValue();
+      if (refOrOutOrConstKeyword != null)
       {
-         AdjustFlagsAndWidth(refOrOutKeyword);
-         this.refOrOutKeyword = refOrOutKeyword;
+         AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+         this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
       }
       var expression = (ExpressionSyntax)reader.ReadValue();
       if (expression != null)
@@ -5956,7 +5956,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
     {
       base.WriteTo(writer);
       writer.WriteValue(this.nameColon);
-      writer.WriteValue(this.refOrOutKeyword);
+      writer.WriteValue(this.refOrOutOrConstKeyword);
       writer.WriteValue(this.expression);
     }
 
@@ -28573,59 +28573,59 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
   /// </summary>
   internal sealed partial class CrefParameterSyntax : CSharpSyntaxNode
   {
-    internal readonly SyntaxToken refOrOutKeyword;
+    internal readonly SyntaxToken refOrOutOrConstKeyword;
     internal readonly TypeSyntax type;
 
-    internal CrefParameterSyntax(SyntaxKind kind, SyntaxToken refOrOutKeyword, TypeSyntax type, DiagnosticInfo[] diagnostics, SyntaxAnnotation[] annotations)
+    internal CrefParameterSyntax(SyntaxKind kind, SyntaxToken refOrOutOrConstKeyword, TypeSyntax type, DiagnosticInfo[] diagnostics, SyntaxAnnotation[] annotations)
         : base(kind, diagnostics, annotations)
     {
         this.SlotCount = 2;
-        if (refOrOutKeyword != null)
+        if (refOrOutOrConstKeyword != null)
         {
-            this.AdjustFlagsAndWidth(refOrOutKeyword);
-            this.refOrOutKeyword = refOrOutKeyword;
+            this.AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+            this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
         }
         this.AdjustFlagsAndWidth(type);
         this.type = type;
     }
 
 
-    internal CrefParameterSyntax(SyntaxKind kind, SyntaxToken refOrOutKeyword, TypeSyntax type, SyntaxFactoryContext context)
+    internal CrefParameterSyntax(SyntaxKind kind, SyntaxToken refOrOutOrConstKeyword, TypeSyntax type, SyntaxFactoryContext context)
         : base(kind)
     {
         this.SetFactoryContext(context);
         this.SlotCount = 2;
-        if (refOrOutKeyword != null)
+        if (refOrOutOrConstKeyword != null)
         {
-            this.AdjustFlagsAndWidth(refOrOutKeyword);
-            this.refOrOutKeyword = refOrOutKeyword;
+            this.AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+            this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
         }
         this.AdjustFlagsAndWidth(type);
         this.type = type;
     }
 
 
-    internal CrefParameterSyntax(SyntaxKind kind, SyntaxToken refOrOutKeyword, TypeSyntax type)
+    internal CrefParameterSyntax(SyntaxKind kind, SyntaxToken refOrOutOrConstKeyword, TypeSyntax type)
         : base(kind)
     {
         this.SlotCount = 2;
-        if (refOrOutKeyword != null)
+        if (refOrOutOrConstKeyword != null)
         {
-            this.AdjustFlagsAndWidth(refOrOutKeyword);
-            this.refOrOutKeyword = refOrOutKeyword;
+            this.AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+            this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
         }
         this.AdjustFlagsAndWidth(type);
         this.type = type;
     }
 
-    public SyntaxToken RefOrOutKeyword { get { return this.refOrOutKeyword; } }
+    public SyntaxToken RefOrOutOrConstKeyword { get { return this.refOrOutOrConstKeyword; } }
     public TypeSyntax Type { get { return this.type; } }
 
     internal override GreenNode GetSlot(int index)
     {
         switch (index)
         {
-            case 0: return this.refOrOutKeyword;
+            case 0: return this.refOrOutOrConstKeyword;
             case 1: return this.type;
             default: return null;
         }
@@ -28646,11 +28646,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         visitor.VisitCrefParameter(this);
     }
 
-    public CrefParameterSyntax Update(SyntaxToken refOrOutKeyword, TypeSyntax type)
+    public CrefParameterSyntax Update(SyntaxToken refOrOutOrConstKeyword, TypeSyntax type)
     {
-        if (refOrOutKeyword != this.RefOrOutKeyword || type != this.Type)
+        if (refOrOutOrConstKeyword != this.RefOrOutOrConstKeyword || type != this.Type)
         {
-            var newNode = SyntaxFactory.CrefParameter(refOrOutKeyword, type);
+            var newNode = SyntaxFactory.CrefParameter(refOrOutOrConstKeyword, type);
             var diags = this.GetDiagnostics();
             if (diags != null && diags.Length > 0)
                newNode = newNode.WithDiagnosticsGreen(diags);
@@ -28665,23 +28665,23 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
     internal override GreenNode SetDiagnostics(DiagnosticInfo[] diagnostics)
     {
-         return new CrefParameterSyntax(this.Kind, this.refOrOutKeyword, this.type, diagnostics, GetAnnotations());
+         return new CrefParameterSyntax(this.Kind, this.refOrOutOrConstKeyword, this.type, diagnostics, GetAnnotations());
     }
 
     internal override GreenNode SetAnnotations(SyntaxAnnotation[] annotations)
     {
-         return new CrefParameterSyntax(this.Kind, this.refOrOutKeyword, this.type, GetDiagnostics(), annotations);
+         return new CrefParameterSyntax(this.Kind, this.refOrOutOrConstKeyword, this.type, GetDiagnostics(), annotations);
     }
 
     internal CrefParameterSyntax(ObjectReader reader)
         : base(reader)
     {
       this.SlotCount = 2;
-      var refOrOutKeyword = (SyntaxToken)reader.ReadValue();
-      if (refOrOutKeyword != null)
+      var refOrOutOrConstKeyword = (SyntaxToken)reader.ReadValue();
+      if (refOrOutOrConstKeyword != null)
       {
-         AdjustFlagsAndWidth(refOrOutKeyword);
-         this.refOrOutKeyword = refOrOutKeyword;
+         AdjustFlagsAndWidth(refOrOutOrConstKeyword);
+         this.refOrOutOrConstKeyword = refOrOutOrConstKeyword;
       }
       var type = (TypeSyntax)reader.ReadValue();
       if (type != null)
@@ -28694,7 +28694,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
     internal override void WriteTo(ObjectWriter writer)
     {
       base.WriteTo(writer);
-      writer.WriteValue(this.refOrOutKeyword);
+      writer.WriteValue(this.refOrOutOrConstKeyword);
       writer.WriteValue(this.type);
     }
 
@@ -35948,9 +35948,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
     public override CSharpSyntaxNode VisitArgument(ArgumentSyntax node)
     {
       var nameColon = (NameColonSyntax)this.Visit(node.NameColon);
-      var refOrOutKeyword = (SyntaxToken)this.Visit(node.RefOrOutKeyword);
+      var refOrOutOrConstKeyword = (SyntaxToken)this.Visit(node.RefOrOutOrConstKeyword);
       var expression = (ExpressionSyntax)this.Visit(node.Expression);
-      return node.Update(nameColon, refOrOutKeyword, expression);
+      return node.Update(nameColon, refOrOutOrConstKeyword, expression);
     }
 
     public override CSharpSyntaxNode VisitNameColon(NameColonSyntax node)
@@ -37116,9 +37116,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
     public override CSharpSyntaxNode VisitCrefParameter(CrefParameterSyntax node)
     {
-      var refOrOutKeyword = (SyntaxToken)this.Visit(node.RefOrOutKeyword);
+      var refOrOutOrConstKeyword = (SyntaxToken)this.Visit(node.RefOrOutOrConstKeyword);
       var type = (TypeSyntax)this.Visit(node.Type);
-      return node.Update(refOrOutKeyword, type);
+      return node.Update(refOrOutOrConstKeyword, type);
     }
 
     public override CSharpSyntaxNode VisitXmlElement(XmlElementSyntax node)
@@ -38821,19 +38821,20 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return result;
     }
 
-    public ArgumentSyntax Argument(NameColonSyntax nameColon, SyntaxToken refOrOutKeyword, ExpressionSyntax expression)
+    public ArgumentSyntax Argument(NameColonSyntax nameColon, SyntaxToken refOrOutOrConstKeyword, ExpressionSyntax expression)
     {
 #if DEBUG
-      if (refOrOutKeyword != null)
+      if (refOrOutOrConstKeyword != null)
       {
-      switch (refOrOutKeyword.Kind)
+      switch (refOrOutOrConstKeyword.Kind)
       {
         case SyntaxKind.RefKeyword:
         case SyntaxKind.OutKeyword:
+        case SyntaxKind.ConstKeyword:
         case SyntaxKind.None:
           break;
         default:
-          throw new ArgumentException("refOrOutKeyword");
+          throw new ArgumentException("refOrOutOrConstKeyword");
       }
       }
       if (expression == null)
@@ -38841,10 +38842,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 #endif
 
       int hash;
-      var cached = CSharpSyntaxNodeCache.TryGetNode((int)SyntaxKind.Argument, nameColon, refOrOutKeyword, expression, this.context, out hash);
+      var cached = CSharpSyntaxNodeCache.TryGetNode((int)SyntaxKind.Argument, nameColon, refOrOutOrConstKeyword, expression, this.context, out hash);
       if (cached != null) return (ArgumentSyntax)cached;
 
-      var result = new ArgumentSyntax(SyntaxKind.Argument, nameColon, refOrOutKeyword, expression, this.context);
+      var result = new ArgumentSyntax(SyntaxKind.Argument, nameColon, refOrOutOrConstKeyword, expression, this.context);
       if (hash >= 0)
       {
           SyntaxNodeCache.AddNode(result, hash);
@@ -43146,19 +43147,20 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return result;
     }
 
-    public CrefParameterSyntax CrefParameter(SyntaxToken refOrOutKeyword, TypeSyntax type)
+    public CrefParameterSyntax CrefParameter(SyntaxToken refOrOutOrConstKeyword, TypeSyntax type)
     {
 #if DEBUG
-      if (refOrOutKeyword != null)
+      if (refOrOutOrConstKeyword != null)
       {
-      switch (refOrOutKeyword.Kind)
+      switch (refOrOutOrConstKeyword.Kind)
       {
         case SyntaxKind.RefKeyword:
         case SyntaxKind.OutKeyword:
+        case SyntaxKind.ConstKeyword:
         case SyntaxKind.None:
           break;
         default:
-          throw new ArgumentException("refOrOutKeyword");
+          throw new ArgumentException("refOrOutOrConstKeyword");
       }
       }
       if (type == null)
@@ -43166,10 +43168,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 #endif
 
       int hash;
-      var cached = CSharpSyntaxNodeCache.TryGetNode((int)SyntaxKind.CrefParameter, refOrOutKeyword, type, this.context, out hash);
+      var cached = CSharpSyntaxNodeCache.TryGetNode((int)SyntaxKind.CrefParameter, refOrOutOrConstKeyword, type, this.context, out hash);
       if (cached != null) return (CrefParameterSyntax)cached;
 
-      var result = new CrefParameterSyntax(SyntaxKind.CrefParameter, refOrOutKeyword, type, this.context);
+      var result = new CrefParameterSyntax(SyntaxKind.CrefParameter, refOrOutOrConstKeyword, type, this.context);
       if (hash >= 0)
       {
           SyntaxNodeCache.AddNode(result, hash);
@@ -45734,19 +45736,20 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return result;
     }
 
-    public static ArgumentSyntax Argument(NameColonSyntax nameColon, SyntaxToken refOrOutKeyword, ExpressionSyntax expression)
+    public static ArgumentSyntax Argument(NameColonSyntax nameColon, SyntaxToken refOrOutOrConstKeyword, ExpressionSyntax expression)
     {
 #if DEBUG
-      if (refOrOutKeyword != null)
+      if (refOrOutOrConstKeyword != null)
       {
-      switch (refOrOutKeyword.Kind)
+      switch (refOrOutOrConstKeyword.Kind)
       {
         case SyntaxKind.RefKeyword:
         case SyntaxKind.OutKeyword:
+        case SyntaxKind.ConstKeyword:
         case SyntaxKind.None:
           break;
         default:
-          throw new ArgumentException("refOrOutKeyword");
+          throw new ArgumentException("refOrOutOrConstKeyword");
       }
       }
       if (expression == null)
@@ -45754,10 +45757,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 #endif
 
       int hash;
-      var cached = SyntaxNodeCache.TryGetNode((int)SyntaxKind.Argument, nameColon, refOrOutKeyword, expression, out hash);
+      var cached = SyntaxNodeCache.TryGetNode((int)SyntaxKind.Argument, nameColon, refOrOutOrConstKeyword, expression, out hash);
       if (cached != null) return (ArgumentSyntax)cached;
 
-      var result = new ArgumentSyntax(SyntaxKind.Argument, nameColon, refOrOutKeyword, expression);
+      var result = new ArgumentSyntax(SyntaxKind.Argument, nameColon, refOrOutOrConstKeyword, expression);
       if (hash >= 0)
       {
           SyntaxNodeCache.AddNode(result, hash);
@@ -50059,19 +50062,20 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return result;
     }
 
-    public static CrefParameterSyntax CrefParameter(SyntaxToken refOrOutKeyword, TypeSyntax type)
+    public static CrefParameterSyntax CrefParameter(SyntaxToken refOrOutOrConstKeyword, TypeSyntax type)
     {
 #if DEBUG
-      if (refOrOutKeyword != null)
+      if (refOrOutOrConstKeyword != null)
       {
-      switch (refOrOutKeyword.Kind)
+      switch (refOrOutOrConstKeyword.Kind)
       {
         case SyntaxKind.RefKeyword:
         case SyntaxKind.OutKeyword:
+        case SyntaxKind.ConstKeyword:
         case SyntaxKind.None:
           break;
         default:
-          throw new ArgumentException("refOrOutKeyword");
+          throw new ArgumentException("refOrOutOrConstKeyword");
       }
       }
       if (type == null)
@@ -50079,10 +50083,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 #endif
 
       int hash;
-      var cached = SyntaxNodeCache.TryGetNode((int)SyntaxKind.CrefParameter, refOrOutKeyword, type, out hash);
+      var cached = SyntaxNodeCache.TryGetNode((int)SyntaxKind.CrefParameter, refOrOutOrConstKeyword, type, out hash);
       if (cached != null) return (CrefParameterSyntax)cached;
 
-      var result = new CrefParameterSyntax(SyntaxKind.CrefParameter, refOrOutKeyword, type);
+      var result = new CrefParameterSyntax(SyntaxKind.CrefParameter, refOrOutOrConstKeyword, type);
       if (hash >= 0)
       {
           SyntaxNodeCache.AddNode(result, hash);

@@ -1201,7 +1201,7 @@ public class Cls
             switch (reference.Parent.Kind())
             {
                 case SyntaxKind.Argument:
-                    if (((ArgumentSyntax)reference.Parent).RefOrOutKeyword.Kind() != SyntaxKind.OutKeyword)
+                    if (((ArgumentSyntax)reference.Parent).RefOrOutOrConstKeyword.Kind() != SyntaxKind.OutKeyword)
                     {
                         return true;
                     }
@@ -1310,7 +1310,7 @@ public class Cls
             switch (reference.Parent.Kind())
             {
                 case SyntaxKind.Argument:
-                    if (((ArgumentSyntax)reference.Parent).RefOrOutKeyword.Kind() != SyntaxKind.None)
+                    if (((ArgumentSyntax)reference.Parent).RefOrOutOrConstKeyword.Kind() != SyntaxKind.None)
                     {
                         return true;
                     }

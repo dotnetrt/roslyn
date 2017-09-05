@@ -1512,7 +1512,7 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
             var node = GenerateArgument();
             
             Assert.Null(node.NameColon);
-            Assert.Null(node.RefOrOutKeyword);
+            Assert.Null(node.RefOrOutOrConstKeyword);
             Assert.NotNull(node.Expression);
             
             AttachAndCheckDiagnostics(node);
@@ -3208,7 +3208,7 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
         {
             var node = GenerateCrefParameter();
             
-            Assert.Null(node.RefOrOutKeyword);
+            Assert.Null(node.RefOrOutOrConstKeyword);
             Assert.NotNull(node.Type);
             
             AttachAndCheckDiagnostics(node);
@@ -10430,9 +10430,9 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
             var node = GenerateArgument();
             
             Assert.Null(node.NameColon);
-            Assert.Equal(SyntaxKind.None, node.RefOrOutKeyword.Kind());
+            Assert.Equal(SyntaxKind.None, node.RefOrOutOrConstKeyword.Kind());
             Assert.NotNull(node.Expression);
-            var newNode = node.WithNameColon(node.NameColon).WithRefOrOutKeyword(node.RefOrOutKeyword).WithExpression(node.Expression);
+            var newNode = node.WithNameColon(node.NameColon).WithRefOrOutOrConstKeyword(node.RefOrOutOrConstKeyword).WithExpression(node.Expression);
             Assert.Equal(node, newNode);
         }
         
@@ -12126,9 +12126,9 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
         {
             var node = GenerateCrefParameter();
             
-            Assert.Equal(SyntaxKind.None, node.RefOrOutKeyword.Kind());
+            Assert.Equal(SyntaxKind.None, node.RefOrOutOrConstKeyword.Kind());
             Assert.NotNull(node.Type);
-            var newNode = node.WithRefOrOutKeyword(node.RefOrOutKeyword).WithType(node.Type);
+            var newNode = node.WithRefOrOutOrConstKeyword(node.RefOrOutOrConstKeyword).WithType(node.Type);
             Assert.Equal(node, newNode);
         }
         

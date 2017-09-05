@@ -3626,12 +3626,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
         }
     }
 
-    /// <summary>SyntaxToken representing the optional ref or out keyword.</summary>
-    public SyntaxToken RefOrOutKeyword 
+    /// <summary>SyntaxToken representing the optional ref, out or const keyword.</summary>
+    public SyntaxToken RefOrOutOrConstKeyword 
     {
         get
         {
-            var slot = ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.ArgumentSyntax)this.Green).refOrOutKeyword;
+            var slot = ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.ArgumentSyntax)this.Green).refOrOutOrConstKeyword;
             if (slot != null)
                 return new SyntaxToken(this, slot, this.GetChildPosition(1), this.GetChildIndex(1));
 
@@ -3677,11 +3677,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
         visitor.VisitArgument(this);
     }
 
-    public ArgumentSyntax Update(NameColonSyntax nameColon, SyntaxToken refOrOutKeyword, ExpressionSyntax expression)
+    public ArgumentSyntax Update(NameColonSyntax nameColon, SyntaxToken refOrOutOrConstKeyword, ExpressionSyntax expression)
     {
-        if (nameColon != this.NameColon || refOrOutKeyword != this.RefOrOutKeyword || expression != this.Expression)
+        if (nameColon != this.NameColon || refOrOutOrConstKeyword != this.RefOrOutOrConstKeyword || expression != this.Expression)
         {
-            var newNode = SyntaxFactory.Argument(nameColon, refOrOutKeyword, expression);
+            var newNode = SyntaxFactory.Argument(nameColon, refOrOutOrConstKeyword, expression);
             var annotations = this.GetAnnotations();
             if (annotations != null && annotations.Length > 0)
                return newNode.WithAnnotations(annotations);
@@ -3693,17 +3693,17 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
 
     public ArgumentSyntax WithNameColon(NameColonSyntax nameColon)
     {
-        return this.Update(nameColon, this.RefOrOutKeyword, this.Expression);
+        return this.Update(nameColon, this.RefOrOutOrConstKeyword, this.Expression);
     }
 
-    public ArgumentSyntax WithRefOrOutKeyword(SyntaxToken refOrOutKeyword)
+    public ArgumentSyntax WithRefOrOutOrConstKeyword(SyntaxToken refOrOutOrConstKeyword)
     {
-        return this.Update(this.NameColon, refOrOutKeyword, this.Expression);
+        return this.Update(this.NameColon, refOrOutOrConstKeyword, this.Expression);
     }
 
     public ArgumentSyntax WithExpression(ExpressionSyntax expression)
     {
-        return this.Update(this.NameColon, this.RefOrOutKeyword, expression);
+        return this.Update(this.NameColon, this.RefOrOutOrConstKeyword, expression);
     }
   }
 
@@ -18249,11 +18249,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
     {
     }
 
-    public SyntaxToken RefOrOutKeyword 
+    public SyntaxToken RefOrOutOrConstKeyword 
     {
         get
         {
-            var slot = ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.CrefParameterSyntax)this.Green).refOrOutKeyword;
+            var slot = ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.CrefParameterSyntax)this.Green).refOrOutOrConstKeyword;
             if (slot != null)
                 return new SyntaxToken(this, slot, this.Position, 0);
 
@@ -18296,11 +18296,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
         visitor.VisitCrefParameter(this);
     }
 
-    public CrefParameterSyntax Update(SyntaxToken refOrOutKeyword, TypeSyntax type)
+    public CrefParameterSyntax Update(SyntaxToken refOrOutOrConstKeyword, TypeSyntax type)
     {
-        if (refOrOutKeyword != this.RefOrOutKeyword || type != this.Type)
+        if (refOrOutOrConstKeyword != this.RefOrOutOrConstKeyword || type != this.Type)
         {
-            var newNode = SyntaxFactory.CrefParameter(refOrOutKeyword, type);
+            var newNode = SyntaxFactory.CrefParameter(refOrOutOrConstKeyword, type);
             var annotations = this.GetAnnotations();
             if (annotations != null && annotations.Length > 0)
                return newNode.WithAnnotations(annotations);
@@ -18310,14 +18310,14 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
         return this;
     }
 
-    public CrefParameterSyntax WithRefOrOutKeyword(SyntaxToken refOrOutKeyword)
+    public CrefParameterSyntax WithRefOrOutOrConstKeyword(SyntaxToken refOrOutOrConstKeyword)
     {
-        return this.Update(refOrOutKeyword, this.Type);
+        return this.Update(refOrOutOrConstKeyword, this.Type);
     }
 
     public CrefParameterSyntax WithType(TypeSyntax type)
     {
-        return this.Update(this.RefOrOutKeyword, type);
+        return this.Update(this.RefOrOutOrConstKeyword, type);
     }
   }
 

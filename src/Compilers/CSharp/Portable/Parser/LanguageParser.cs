@@ -3728,6 +3728,7 @@ tryAgain:
                 case SyntaxKind.ArgListKeyword:
                 case SyntaxKind.OpenParenToken:   // tuple
                 case SyntaxKind.ThisKeyword:
+                case SyntaxKind.ConstKeyword:
                     return true;
 
                 case SyntaxKind.IdentifierToken:
@@ -3847,6 +3848,7 @@ tryAgain:
                 case SyntaxKind.RefKeyword:
                 case SyntaxKind.OutKeyword:
                 case SyntaxKind.ParamsKeyword:
+                case SyntaxKind.ConstKeyword:
                     return true;
             }
 
@@ -9554,6 +9556,7 @@ tryAgain:
             {
                 case SyntaxKind.RefKeyword:
                 case SyntaxKind.OutKeyword:
+                case SyntaxKind.ConstKeyword:
                     return true;
                 default:
                     return this.IsPossibleExpression();
@@ -9571,10 +9574,11 @@ tryAgain:
                 nameColon = CheckFeatureAvailability(nameColon, MessageID.IDS_FeatureNamedArgument);
             }
 
-            SyntaxToken refOrOutKeyword = null;
-            if (this.CurrentToken.Kind == SyntaxKind.RefKeyword || this.CurrentToken.Kind == SyntaxKind.OutKeyword)
+            SyntaxToken refOutOrConstKeyword = null;
+            if (this.CurrentToken.Kind == SyntaxKind.RefKeyword || this.CurrentToken.Kind == SyntaxKind.OutKeyword ||
+                this.CurrentToken.Kind == SyntaxKind.ConstKeyword)
             {
-                refOrOutKeyword = this.EatToken();
+                refOutOrConstKeyword = this.EatToken();
             }
 
             ExpressionSyntax expression;
@@ -9595,12 +9599,12 @@ tryAgain:
                 // scenarios, and when indexing an object of static type "dynamic". So we enforce
                 // that the ref/out of the argument must match the parameter when binding the argument list.
 
-                expression = (refOrOutKeyword?.Kind == SyntaxKind.OutKeyword)
+                expression = (refOutOrConstKeyword?.Kind == SyntaxKind.OutKeyword)
                     ? ParseExpressionOrDeclaration(ParseTypeMode.Normal, feature: MessageID.IDS_FeatureOutVar, permitTupleDesignation: false)
                     : ParseSubExpression(Precedence.Expression);
             }
 
-            return _syntaxFactory.Argument(nameColon, refOrOutKeyword, expression);
+            return _syntaxFactory.Argument(nameColon, refOutOrConstKeyword, expression);
         }
 
         private TypeOfExpressionSyntax ParseTypeOfExpression()
@@ -9878,7 +9882,7 @@ tryAgain:
                     //  ( <expr>,    must be a tuple
                     if (this.CurrentToken.Kind == SyntaxKind.CommaToken)
                     {
-                        var firstArg = _syntaxFactory.Argument(nameColon: null, refOrOutKeyword: default(SyntaxToken), expression: expression);
+                        var firstArg = _syntaxFactory.Argument(nameColon: null, refOrOutOrConstKeyword: default(SyntaxToken), expression: expression);
                         return ParseTupleExpressionTail(openParen, firstArg);
                     }
 
@@ -9888,7 +9892,7 @@ tryAgain:
                         var nameColon = _syntaxFactory.NameColon((IdentifierNameSyntax)expression, EatToken());
                         expression = this.ParseExpressionOrDeclaration(ParseTypeMode.FirstElementOfPossibleTupleLiteral, feature: 0, permitTupleDesignation: true);
 
-                        var firstArg = _syntaxFactory.Argument(nameColon, refOrOutKeyword: default(SyntaxToken), expression: expression);
+                        var firstArg = _syntaxFactory.Argument(nameColon, refOrOutOrConstKeyword: default(SyntaxToken), expression: expression);
                         return ParseTupleExpressionTail(openParen, firstArg);
                     }
 
@@ -9921,11 +9925,11 @@ tryAgain:
                     {
                         var nameColon = _syntaxFactory.NameColon((IdentifierNameSyntax)expression, EatToken());
                         expression = ParseExpressionOrDeclaration(ParseTypeMode.AfterTupleComma, feature: 0, permitTupleDesignation: true);
-                        arg = _syntaxFactory.Argument(nameColon, refOrOutKeyword: default(SyntaxToken), expression: expression);
+                        arg = _syntaxFactory.Argument(nameColon, refOrOutOrConstKeyword: default(SyntaxToken), expression: expression);
                     }
                     else
                     {
-                        arg = _syntaxFactory.Argument(nameColon: null, refOrOutKeyword: default(SyntaxToken), expression: expression);
+                        arg = _syntaxFactory.Argument(nameColon: null, refOrOutOrConstKeyword: default(SyntaxToken), expression: expression);
                     }
 
                     list.Add(arg);
@@ -9935,7 +9939,7 @@ tryAgain:
                 {
                     list.AddSeparator(SyntaxFactory.MissingToken(SyntaxKind.CommaToken));
                     var missing = this.AddError(this.CreateMissingIdentifierName(), ErrorCode.ERR_TupleTooFewElements);
-                    list.Add(_syntaxFactory.Argument(nameColon: null, refOrOutKeyword: default(SyntaxToken), expression: missing));
+                    list.Add(_syntaxFactory.Argument(nameColon: null, refOrOutOrConstKeyword: default(SyntaxToken), expression: missing));
                 }
 
                 var closeParen = this.EatToken(SyntaxKind.CloseParenToken);

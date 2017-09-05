@@ -869,7 +869,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             foreach (CrefParameterSyntax parameter in parameterListSyntax.Parameters)
             {
-                RefKind refKind = parameter.RefOrOutKeyword.Kind().GetRefKind();
+                RefKind refKind = parameter.RefOrOutOrConstKeyword.Kind().GetRefKind();
 
                 TypeSymbol type = BindCrefParameterOrReturnType(parameter.Type, (MemberCrefSyntax)parameterListSyntax.Parent, diagnostics);
 

@@ -128,6 +128,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             var seenThis = false;
             var seenRef = false;
             var seenOut = false;
+            var seenConst = false;
             var seenParams = false;
 
             foreach (var modifier in parameter.Modifiers)
@@ -150,6 +151,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         else if (seenParams)
                         {
                             diagnostics.Add(ErrorCode.ERR_BadParamModThis, modifier.GetLocation());
+                        }
+                        else if (seenConst)
+                        {
+                            diagnostics.Add(ErrorCode.ERR_BadConstWithThis, modifier.GetLocation());
                         }
                         else
                         {
@@ -174,6 +179,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         {
                             diagnostics.Add(ErrorCode.ERR_MultiParamMod, modifier.GetLocation());
                         }
+                        else if (seenConst)
+                        {
+                            diagnostics.Add(ErrorCode.ERR_ParamsCantBeConstRef, modifier.GetLocation());
+                        }
                         else
                         {
                             seenRef = true;
@@ -197,6 +206,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         {
                             diagnostics.Add(ErrorCode.ERR_MultiParamMod, modifier.GetLocation());
                         }
+                        else if (seenConst)
+                        {
+                            diagnostics.Add(ErrorCode.ERR_ParamsCantBeConstOut, modifier.GetLocation());
+                        }
                         else
                         {
                             seenOut = true;
@@ -212,13 +225,36 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         {
                             diagnostics.Add(ErrorCode.ERR_BadParamModThis, modifier.GetLocation());
                         }
-                        else if (seenRef || seenOut)
+                        else if (seenRef || seenOut || seenConst)
                         {
                             diagnostics.Add(ErrorCode.ERR_MultiParamMod, modifier.GetLocation());
                         }
                         else
                         {
                             seenParams = true;
+                        }
+                        break;
+
+                    case SyntaxKind.ConstKeyword:
+                        if (seenConst)
+                        {
+                            diagnostics.Add(ErrorCode.ERR_DupParamMod, modifier.GetLocation(), SyntaxFacts.GetText(SyntaxKind.ConstKeyword));
+                        }
+                        else if (seenThis)
+                        {
+                            diagnostics.Add(ErrorCode.ERR_BadConstWithThis, modifier.GetLocation());
+                        }
+                        else if (seenParams)
+                        {
+                            diagnostics.Add(ErrorCode.ERR_ParamsCantBeConst, modifier.GetLocation());
+                        }
+                        else if (seenRef || seenOut)
+                        {
+                            diagnostics.Add(ErrorCode.ERR_MultiParamMod, modifier.GetLocation());
+                        }
+                        else
+                        {
+                            seenConst = true;
                         }
                         break;
 

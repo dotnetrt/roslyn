@@ -1367,7 +1367,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             CSharpSyntaxNode parent = node.Parent;
             return (parent?.Kind() == SyntaxKind.Argument &&
-                ((ArgumentSyntax)parent).RefOrOutKeyword.Kind() == SyntaxKind.OutKeyword);
+                ((ArgumentSyntax)parent).RefOrOutOrConstKeyword.Kind() == SyntaxKind.OutKeyword);
         }
 
         private BoundExpression SynthesizeMethodGroupReceiver(CSharpSyntaxNode syntax, ArrayBuilder<Symbol> members)
@@ -2255,7 +2255,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             bool allowArglist,
             bool isDelegateCreation = false)
         {
-            RefKind origRefKind = argumentSyntax.RefOrOutKeyword.Kind().GetRefKind();
+            RefKind origRefKind = argumentSyntax.RefOrOutOrConstKeyword.Kind().GetRefKind();
             // The old native compiler ignores ref/out in a delegate creation expression.
             // For compatibility we implement the same bug except in strict mode.
             // Note: Some others should still be rejected when ref/out present. See RefMustBeObeyed.
@@ -2284,7 +2284,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 }
             }
 
-            if (argumentSyntax.RefOrOutKeyword.Kind() != SyntaxKind.None)
+            if (argumentSyntax.RefOrOutOrConstKeyword.Kind() != SyntaxKind.None)
             {
                 argumentSyntax.Expression.CheckDeconstructionCompatibleArgument(diagnostics);
             }

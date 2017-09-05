@@ -22,7 +22,12 @@ namespace Microsoft.CodeAnalysis
         /// <summary>
         /// Indicates an "out" parameter.
         /// </summary>
-        Out = 2
+        Out = 2,
+
+        /// <summary>
+        /// Indicates a "const" parameter.
+        /// </summary>
+        Const = 3
     }
 
     internal static class RefKindExtensions
@@ -31,6 +36,7 @@ namespace Microsoft.CodeAnalysis
         {
             switch (kind)
             {
+                case RefKind.Const: return "const";
                 case RefKind.Out: return "out";
                 case RefKind.Ref: return "ref";
                 default: return null;
@@ -41,6 +47,7 @@ namespace Microsoft.CodeAnalysis
         {
             switch (kind)
             {
+                case RefKind.Const: return "const";
                 case RefKind.Out: return "out ";
                 case RefKind.Ref: return "ref ";
                 default: return string.Empty;

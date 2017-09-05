@@ -1392,7 +1392,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
 
             ArgumentSyntax argument = node.ArgumentList.Arguments[0];
-            if (argument.NameColon != null || argument.RefOrOutKeyword != default(SyntaxToken) || InvocableNameofInScope())
+            if (argument.NameColon != null || argument.RefOrOutOrConstKeyword != default(SyntaxToken) || InvocableNameofInScope())
             {
                 return false;
             }

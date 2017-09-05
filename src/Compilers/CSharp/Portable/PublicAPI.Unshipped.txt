@@ -1,1 +1,9 @@
 Microsoft.CodeAnalysis.CSharp.LanguageVersion.CSharp7_2 = 702 -> Microsoft.CodeAnalysis.CSharp.LanguageVersion
+Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.RefOrOutOrConstKeyword.get -> Microsoft.CodeAnalysis.SyntaxToken
+Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.Update(Microsoft.CodeAnalysis.CSharp.Syntax.NameColonSyntax nameColon, Microsoft.CodeAnalysis.SyntaxToken refOrOutOrConstKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.WithRefOrOutOrConstKeyword(Microsoft.CodeAnalysis.SyntaxToken refOrOutOrConstKeyword) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.RefOrOutOrConstKeyword.get -> Microsoft.CodeAnalysis.SyntaxToken
+Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.Update(Microsoft.CodeAnalysis.SyntaxToken refOrOutOrConstKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax type) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.WithRefOrOutOrConstKeyword(Microsoft.CodeAnalysis.SyntaxToken refOrOutOrConstKeyword) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
+static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.Argument(Microsoft.CodeAnalysis.CSharp.Syntax.NameColonSyntax nameColon, Microsoft.CodeAnalysis.SyntaxToken refOrOutOrConstKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
+static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.CrefParameter(Microsoft.CodeAnalysis.SyntaxToken refOrOutOrConstKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax type) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax

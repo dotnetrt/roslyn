@@ -301,11 +301,8 @@ Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentListSyntax.WithOpenParenToken(Micro
 Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.Expression.get -> Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.NameColon.get -> Microsoft.CodeAnalysis.CSharp.Syntax.NameColonSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.RefOrOutKeyword.get -> Microsoft.CodeAnalysis.SyntaxToken
-Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.Update(Microsoft.CodeAnalysis.CSharp.Syntax.NameColonSyntax nameColon, Microsoft.CodeAnalysis.SyntaxToken refOrOutKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.WithExpression(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.WithNameColon(Microsoft.CodeAnalysis.CSharp.Syntax.NameColonSyntax nameColon) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax.WithRefOrOutKeyword(Microsoft.CodeAnalysis.SyntaxToken refOrOutKeyword) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.ArrayCreationExpressionSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.ArrayCreationExpressionSyntax.AddTypeRankSpecifiers(params Microsoft.CodeAnalysis.CSharp.Syntax.ArrayRankSpecifierSyntax[] items) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArrayCreationExpressionSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.ArrayCreationExpressionSyntax.Initializer.get -> Microsoft.CodeAnalysis.CSharp.Syntax.InitializerExpressionSyntax
@@ -684,10 +681,7 @@ Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterListSyntax.WithCloseParenToken
 Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterListSyntax.WithOpenParenToken(Microsoft.CodeAnalysis.SyntaxToken openParenToken) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterListSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterListSyntax.WithParameters(Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax> parameters) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterListSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.RefOrOutKeyword.get -> Microsoft.CodeAnalysis.SyntaxToken
 Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.Type.get -> Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.Update(Microsoft.CodeAnalysis.SyntaxToken refOrOutKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax type) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.WithRefOrOutKeyword(Microsoft.CodeAnalysis.SyntaxToken refOrOutKeyword) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax.WithType(Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax type) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.CrefSyntax
 Microsoft.CodeAnalysis.CSharp.Syntax.DeclarationExpressionSyntax
@@ -3664,7 +3658,6 @@ static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.AreEquivalent<TNode>(Microsof
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.AreEquivalent<TNode>(Microsoft.CodeAnalysis.SyntaxList<TNode> oldList, Microsoft.CodeAnalysis.SyntaxList<TNode> newList, bool topLevel) -> bool
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.AreEquivalent<TNode>(Microsoft.CodeAnalysis.SyntaxList<TNode> oldList, Microsoft.CodeAnalysis.SyntaxList<TNode> newList, System.Func<Microsoft.CodeAnalysis.CSharp.SyntaxKind, bool> ignoreChildNode = null) -> bool
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.Argument(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
-static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.Argument(Microsoft.CodeAnalysis.CSharp.Syntax.NameColonSyntax nameColon, Microsoft.CodeAnalysis.SyntaxToken refOrOutKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ArgumentList(Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax> arguments = default(Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax>)) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentListSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ArgumentList(Microsoft.CodeAnalysis.SyntaxToken openParenToken, Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax> arguments, Microsoft.CodeAnalysis.SyntaxToken closeParenToken) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentListSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ArrayCreationExpression(Microsoft.CodeAnalysis.CSharp.Syntax.ArrayTypeSyntax type) -> Microsoft.CodeAnalysis.CSharp.Syntax.ArrayCreationExpressionSyntax
@@ -3771,7 +3764,6 @@ static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.ConversionOperatorMemberCref(
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.CrefBracketedParameterList(Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax> parameters = default(Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax>)) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefBracketedParameterListSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.CrefBracketedParameterList(Microsoft.CodeAnalysis.SyntaxToken openBracketToken, Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax> parameters, Microsoft.CodeAnalysis.SyntaxToken closeBracketToken) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefBracketedParameterListSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.CrefParameter(Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax type) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
-static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.CrefParameter(Microsoft.CodeAnalysis.SyntaxToken refOrOutKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax type) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.CrefParameterList(Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax> parameters = default(Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax>)) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterListSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.CrefParameterList(Microsoft.CodeAnalysis.SyntaxToken openParenToken, Microsoft.CodeAnalysis.SeparatedSyntaxList<Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterSyntax> parameters, Microsoft.CodeAnalysis.SyntaxToken closeParenToken) -> Microsoft.CodeAnalysis.CSharp.Syntax.CrefParameterListSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.DeclarationExpression(Microsoft.CodeAnalysis.CSharp.Syntax.TypeSyntax type, Microsoft.CodeAnalysis.CSharp.Syntax.VariableDesignationSyntax designation) -> Microsoft.CodeAnalysis.CSharp.Syntax.DeclarationExpressionSyntax
