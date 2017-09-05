@@ -1430,12 +1430,12 @@ ulong.MinValue --> 0";
             Assert.Equal(expected, actual);
         }
 
-        private static string ParseAndGetConstantFoldingSteps(string source)
+        internal static string ParseAndGetConstantFoldingSteps(string source)
         {
             return ParseAndGetConstantFoldingSteps(source, node => node.Kind != BoundKind.Literal && node.Kind != BoundKind.Local);
         }
 
-        private static string ParseAndGetConstantFoldingSteps(string source, Func<BoundNode, bool> predicate)
+        internal static string ParseAndGetConstantFoldingSteps(string source, Func<BoundNode, bool> predicate)
         {
             var block = ParseAndBindMethodBody(source);
             var constants = BoundTreeSequencer.GetNodes(block).

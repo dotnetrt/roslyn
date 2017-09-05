@@ -46,7 +46,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
 
                 var refKind = GetModifiers(parameterSyntax.Modifiers,
                     out SyntaxToken outKeyword, out SyntaxToken refKeyword,
-                    out SyntaxToken paramsKeyword, out SyntaxToken thisKeyword);
+                    out SyntaxToken paramsKeyword, out SyntaxToken thisKeyword,
+                    out SyntaxToken constKeyword);
 
                 if (thisKeyword.Kind() != SyntaxKind.None && !allowThis)
                 {
@@ -348,7 +349,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             SyntaxToken refKeyword;
             SyntaxToken paramsKeyword;
             SyntaxToken thisKeyword;
-            GetModifiers(parameterSyntax.Modifiers, out outKeyword, out refKeyword, out paramsKeyword, out thisKeyword);
+            SyntaxToken constKeyword;
+            GetModifiers(parameterSyntax.Modifiers, out outKeyword, out refKeyword, out paramsKeyword, out thisKeyword, out constKeyword);
 
             // CONSIDER: We are inconsistent here regarding where the error is reported; is it
             // CONSIDER: reported on the parameter name, or on the value of the initializer?
@@ -363,6 +365,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             else if (refKeyword.Kind() == SyntaxKind.RefKeyword)
             {
                 // error CS1741: A ref or out parameter cannot have a default value
+                diagnostics.Add(ErrorCode.ERR_RefOutDefaultValue, refKeyword.GetLocation());
+                hasErrors = true;
+            }
+            else if (constKeyword.Kind() == SyntaxKind.ConstKeyword)
+            {
+                // error CS1741: A ref or out parameter cannot have a default value
+                /// TODO - add error message for const keyword modifier
                 diagnostics.Add(ErrorCode.ERR_RefOutDefaultValue, refKeyword.GetLocation());
                 hasErrors = true;
             }
@@ -510,7 +519,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             return null;
         }
 
-        private static RefKind GetModifiers(SyntaxTokenList modifiers, out SyntaxToken outKeyword, out SyntaxToken refKeyword, out SyntaxToken paramsKeyword, out SyntaxToken thisKeyword)
+        private static RefKind GetModifiers(SyntaxTokenList modifiers, out SyntaxToken outKeyword, out SyntaxToken refKeyword, out SyntaxToken paramsKeyword, out SyntaxToken thisKeyword, out SyntaxToken constKeyword)
         {
             var refKind = RefKind.None;
 
@@ -518,6 +527,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             refKeyword = default(SyntaxToken);
             paramsKeyword = default(SyntaxToken);
             thisKeyword = default(SyntaxToken);
+            constKeyword = default(SyntaxToken);
 
             foreach (var modifier in modifiers)
             {
@@ -542,6 +552,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         break;
                     case SyntaxKind.ThisKeyword:
                         thisKeyword = modifier;
+                        break;
+                    case SyntaxKind.ConstKeyword:
+                        constKeyword = modifier;
+                        if (refKind == RefKind.None)
+                        {
+                            refKind = RefKind.Const;
+                        }
                         break;
                 }
             }

@@ -2530,7 +2530,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         /// </summary>
         private BoundExpression BindArgumentExpression(DiagnosticBag diagnostics, ExpressionSyntax argumentExpression, RefKind refKind, bool allowArglist)
         {
-            BindValueKind valueKind = refKind == RefKind.None ? BindValueKind.RValue : BindValueKind.RefOrOut;
+            BindValueKind valueKind = (refKind == RefKind.None || refKind == RefKind.Const) ? BindValueKind.RValue : BindValueKind.RefOrOut;
 
             BoundExpression argument;
             if (allowArglist)

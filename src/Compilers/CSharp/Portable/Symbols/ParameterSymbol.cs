@@ -50,7 +50,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
         public abstract TypeSymbol Type { get; }
 
         /// <summary>
-        /// Determines if the parameter ref, out or neither.
+        /// Determines if the parameter ref, out, const or neither.
         /// </summary>
         public abstract RefKind RefKind { get; }
 
