@@ -77,7 +77,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Completion.Providers
                     ?? token.Parent.Parent.Parent as ArgumentSyntax; // var is child of DeclarationExpression 
                                                                      // under ArgumentSyntax, eg. Goo(out var a$$
 
-                if (argument == null || !argument.RefOrOutKeyword.IsKind(SyntaxKind.OutKeyword))
+                if (argument == null || !argument.RefOrOutOrConstKeyword.IsKind(SyntaxKind.OutKeyword))
                 {
                     result = default;
                     return false;

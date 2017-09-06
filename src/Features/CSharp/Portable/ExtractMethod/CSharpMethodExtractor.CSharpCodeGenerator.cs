@@ -593,7 +593,7 @@ namespace Microsoft.CodeAnalysis.CSharp.ExtractMethod
                     var modifier = GetParameterRefSyntaxKind(argument.ParameterModifier);
                     var refOrOut = modifier == SyntaxKind.None ? default : SyntaxFactory.Token(modifier);
 
-                    arguments.Add(SyntaxFactory.Argument(SyntaxFactory.IdentifierName(argument.Name)).WithRefOrOutKeyword(refOrOut));
+                    arguments.Add(SyntaxFactory.Argument(SyntaxFactory.IdentifierName(argument.Name)).WithRefOrOutOrConstKeyword(refOrOut));
                 }
 
                 var invocation = SyntaxFactory.InvocationExpression(methodName,

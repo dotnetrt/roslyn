@@ -1530,7 +1530,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Extensions.ContextQuery
 
             if (token.IsKind(SyntaxKind.OutKeyword) &&
                 token.Parent.IsKind(SyntaxKind.Argument) &&
-                ((ArgumentSyntax)token.Parent).RefOrOutKeyword == token)
+                ((ArgumentSyntax)token.Parent).RefOrOutOrConstKeyword == token)
             {
                 return true;
             }
@@ -2578,7 +2578,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Extensions.ContextQuery
                     token.Parent.IsKind(SyntaxKind.IdentifierName))
                 {
                     if (token.Parent.IsParentKind(SyntaxKind.Argument) &&
-                        CodeAnalysis.CSharpExtensions.IsKind(((ArgumentSyntax)token.Parent.Parent).RefOrOutKeyword, SyntaxKind.OutKeyword))
+                        CodeAnalysis.CSharpExtensions.IsKind(((ArgumentSyntax)token.Parent.Parent).RefOrOutOrConstKeyword, SyntaxKind.OutKeyword))
                     {
                         return false;
                     }

@@ -575,8 +575,8 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
             Assert.Equal(1, cs.ArgumentList.Arguments.Count);
             Assert.Equal("a", cs.Expression.ToString());
             Assert.Equal("ref b", cs.ArgumentList.Arguments[0].ToString());
-            Assert.NotNull(cs.ArgumentList.Arguments[0].RefOrOutKeyword);
-            Assert.Equal(SyntaxKind.RefKeyword, cs.ArgumentList.Arguments[0].RefOrOutKeyword.Kind());
+            Assert.NotNull(cs.ArgumentList.Arguments[0].RefOrOutOrConstKeyword);
+            Assert.Equal(SyntaxKind.RefKeyword, cs.ArgumentList.Arguments[0].RefOrOutOrConstKeyword.Kind());
             Assert.NotNull(cs.ArgumentList.Arguments[0].Expression);
             Assert.Equal("b", cs.ArgumentList.Arguments[0].Expression.ToString());
         }
@@ -600,8 +600,8 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
             Assert.Equal(1, cs.ArgumentList.Arguments.Count);
             Assert.Equal("a", cs.Expression.ToString());
             Assert.Equal("out b", cs.ArgumentList.Arguments[0].ToString());
-            Assert.NotNull(cs.ArgumentList.Arguments[0].RefOrOutKeyword);
-            Assert.Equal(SyntaxKind.OutKeyword, cs.ArgumentList.Arguments[0].RefOrOutKeyword.Kind());
+            Assert.NotNull(cs.ArgumentList.Arguments[0].RefOrOutOrConstKeyword);
+            Assert.Equal(SyntaxKind.OutKeyword, cs.ArgumentList.Arguments[0].RefOrOutOrConstKeyword.Kind());
             Assert.NotNull(cs.ArgumentList.Arguments[0].Expression);
             Assert.Equal("b", cs.ArgumentList.Arguments[0].Expression.ToString());
         }
@@ -671,8 +671,8 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
             Assert.Equal(1, ea.ArgumentList.Arguments.Count);
             Assert.Equal("a", ea.Expression.ToString());
             Assert.Equal("ref b", ea.ArgumentList.Arguments[0].ToString());
-            Assert.NotNull(ea.ArgumentList.Arguments[0].RefOrOutKeyword);
-            Assert.Equal(SyntaxKind.RefKeyword, ea.ArgumentList.Arguments[0].RefOrOutKeyword.Kind());
+            Assert.NotNull(ea.ArgumentList.Arguments[0].RefOrOutOrConstKeyword);
+            Assert.Equal(SyntaxKind.RefKeyword, ea.ArgumentList.Arguments[0].RefOrOutOrConstKeyword.Kind());
             Assert.NotNull(ea.ArgumentList.Arguments[0].Expression);
             Assert.Equal("b", ea.ArgumentList.Arguments[0].Expression.ToString());
         }
@@ -696,8 +696,8 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
             Assert.Equal(1, ea.ArgumentList.Arguments.Count);
             Assert.Equal("a", ea.Expression.ToString());
             Assert.Equal("out b", ea.ArgumentList.Arguments[0].ToString());
-            Assert.NotNull(ea.ArgumentList.Arguments[0].RefOrOutKeyword);
-            Assert.Equal(SyntaxKind.OutKeyword, ea.ArgumentList.Arguments[0].RefOrOutKeyword.Kind());
+            Assert.NotNull(ea.ArgumentList.Arguments[0].RefOrOutOrConstKeyword);
+            Assert.Equal(SyntaxKind.OutKeyword, ea.ArgumentList.Arguments[0].RefOrOutOrConstKeyword.Kind());
             Assert.NotNull(ea.ArgumentList.Arguments[0].Expression);
             Assert.Equal("b", ea.ArgumentList.Arguments[0].Expression.ToString());
         }

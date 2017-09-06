@@ -39,7 +39,7 @@ namespace Microsoft.CodeAnalysis.Editor.CSharp.UseAutoProperty
             // An argument will disqualify a field if that field is used in a ref/out position.  
             // We can't change such field references to be property references in C#.
             var argument = (ArgumentSyntax)context.Node;
-            if (argument.RefOrOutKeyword.Kind() == SyntaxKind.None)
+            if (argument.RefOrOutOrConstKeyword.Kind() == SyntaxKind.None)
             {
                 return;
             }

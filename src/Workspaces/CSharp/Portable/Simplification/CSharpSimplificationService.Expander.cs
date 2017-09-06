@@ -279,7 +279,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Simplification
                 if (argumentType != null &&
                     !IsPassedToDelegateCreationExpression(node, argumentType) &&
                     node.Expression.Kind() != SyntaxKind.DeclarationExpression &&
-                    node.RefOrOutKeyword.Kind() == SyntaxKind.None)
+                    node.RefOrOutOrConstKeyword.Kind() == SyntaxKind.None)
                 {
                     if (TryCastTo(argumentType, node.Expression, newArgument.Expression, out var newArgumentExpressionWithCast))
                     {

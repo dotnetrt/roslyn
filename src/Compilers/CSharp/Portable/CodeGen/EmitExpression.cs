@@ -1146,14 +1146,15 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
         {
             int slot = ParameterSlot(parameter);
             
-            if (parameter.ParameterSymbol.RefKind == RefKind.Const)
-            {
-                EmitLoadConstArgumentOpcode(slot, parameter.ParameterSymbol);
-            }
-            else
+            if (parameter.ParameterSymbol.RefKind != RefKind.Const)
             {
                 _builder.EmitLoadArgumentOpcode(slot);
             }
+            else
+            {
+                EmitLoadConstArgumentOpcode(slot, parameter.ParameterSymbol);
+            }
+
 
             if (parameter.ParameterSymbol.RefKind != RefKind.None &&
                 parameter.ParameterSymbol.RefKind != RefKind.Const)

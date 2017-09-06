@@ -135,7 +135,7 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeRefactorings.InlineTemporary
             if (identifierNode.IsParentKind(SyntaxKind.Argument))
             {
                 var argument = (ArgumentSyntax)identifierNode.Parent;
-                if (argument.RefOrOutKeyword.Kind() != SyntaxKind.None)
+                if (argument.RefOrOutOrConstKeyword.Kind() != SyntaxKind.None)
                 {
                     return true;
                 }

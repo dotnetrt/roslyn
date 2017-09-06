@@ -371,7 +371,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             else if (constKeyword.Kind() == SyntaxKind.ConstKeyword)
             {
                 // error CS1741: A ref or out parameter cannot have a default value
-                /// TODO - add error message for const keyword modifier
+                // TODO - add error message for const keyword modifier
                 diagnostics.Add(ErrorCode.ERR_RefOutDefaultValue, refKeyword.GetLocation());
                 hasErrors = true;
             }
