@@ -12,7 +12,7 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests.CodeGen
     public class CodeGenConstParameterTests : CSharpTestBase
     {
         [Fact]
-        public void TestOutParamSignature()
+        public void TestConstParamSignature001()
         {
             var source = @"
 class C
@@ -23,7 +23,23 @@ class C
 }";
             CompileAndVerify(source, expectedSignatures: new[]
             {
-                Signature("C", "M", ".method private hidebysig instance System.Void M([const] System.Int32& x) cil managed")
+                Signature("C", "M", ".method private hidebysig instance System.Void M([const] System.Int32 x) cil managed")
+            });
+        }
+
+        [Fact]
+        public void TestConstParamSignature002()
+        {
+            var source = @"
+class C
+{
+    void M(object instance, const int x)
+    {
+    }
+}";
+            CompileAndVerify(source, expectedSignatures: new[]
+            {
+                Signature("C", "M", ".method private hidebysig instance System.Void M(System.Object instance, [const] System.Int32 x) cil managed")
             });
         }
     }
