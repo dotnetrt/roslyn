@@ -1145,22 +1145,18 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
         private void EmitParameterLoad(BoundParameter parameter)
         {
             int slot = ParameterSlot(parameter);
-            
-            if (parameter.ParameterSymbol.RefKind != RefKind.Const)
-            {
-                _builder.EmitLoadArgumentOpcode(slot);
-            }
-            else
-            {
-                EmitLoadConstArgumentOpcode(slot, parameter.ParameterSymbol);
-            }
 
+            _builder.EmitLoadArgumentOpcode(slot);
 
             if (parameter.ParameterSymbol.RefKind != RefKind.None &&
                 parameter.ParameterSymbol.RefKind != RefKind.Const)
             {
                 var parameterType = parameter.ParameterSymbol.Type;
                 EmitLoadIndirect(parameterType, parameter.Syntax);
+            }
+            else if (parameter.ParameterSymbol.RefKind != RefKind.Const)
+            {
+                EmitLoadConstArgument(parameter.ParameterSymbol);
             }
         }
 
@@ -1233,7 +1229,7 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
             }
         }
 
-        private void EmitLoadConstArgumentOpcode(int argNumber, ParameterSymbol parameter)
+        private void EmitLoadConstArgument(ParameterSymbol parameter)
         {
             throw new NotImplementedException();
         }
