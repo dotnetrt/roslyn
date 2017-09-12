@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Symbols;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp.Test.Utilities;
@@ -21,10 +22,12 @@ class C
     {
     }
 }";
-            CompileAndVerify(source, expectedSignatures: new[]
-            {
-                Signature("C", "M", ".method private hidebysig instance System.Void M([const] System.Int32 x) cil managed")
-            });
+            CompileAndVerify(source,
+                expectedSignatures: new[]
+                {
+                    Signature("C", "M", ".method private hidebysig instance System.Void M([const] System.Int32 x) cil managed")
+                },
+                parseOptions: TestOptions.Regular.WithExperimental(MessageID.IDS_FeatureConstParameters));
         }
 
         [Fact]
@@ -33,14 +36,16 @@ class C
             var source = @"
 class C
 {
-    void M(object instance, const int x)
+    void M(out object instance, const int x)
     {
     }
 }";
-            CompileAndVerify(source, expectedSignatures: new[]
-            {
-                Signature("C", "M", ".method private hidebysig instance System.Void M(System.Object instance, [const] System.Int32 x) cil managed")
-            });
+            CompileAndVerify(source,
+                expectedSignatures: new[]
+                {
+                    Signature("C", "M", ".method private hidebysig instance System.Void M([out] System.Object instance, [const] System.Int32 x) cil managed")
+                },
+                parseOptions: TestOptions.Regular.WithExperimental(MessageID.IDS_FeatureConstParameters));
         }
     }
 }
