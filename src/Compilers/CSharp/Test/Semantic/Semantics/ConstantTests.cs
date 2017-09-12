@@ -44,7 +44,7 @@ class C
         const string s1 = ""hello"" + ""goodbye"";
         string s2 = ""abc"" + 123; // This is NOT a constant because it involves a boxing conversion.
         const string s3 = ""not null"" + null;
-        const bool b = (null == null) & (null != null); 
+        const bool b = (null == null) & (null != null);
         const bool b2 = b & !b;
         const string s4 = s1 + s3;
 
@@ -1430,12 +1430,12 @@ ulong.MinValue --> 0";
             Assert.Equal(expected, actual);
         }
 
-        internal static string ParseAndGetConstantFoldingSteps(string source)
+        private static string ParseAndGetConstantFoldingSteps(string source)
         {
             return ParseAndGetConstantFoldingSteps(source, node => node.Kind != BoundKind.Literal && node.Kind != BoundKind.Local);
         }
 
-        internal static string ParseAndGetConstantFoldingSteps(string source, Func<BoundNode, bool> predicate)
+        private static string ParseAndGetConstantFoldingSteps(string source, Func<BoundNode, bool> predicate)
         {
             var block = ParseAndBindMethodBody(source);
             var constants = BoundTreeSequencer.GetNodes(block).
@@ -1680,17 +1680,17 @@ class C
         int y = (1 / 0) + (1L/0L) + (1UL/0UL) + (1M/0M) + (-79228162514264337593543950335m - 1m);
 
         const int z = 1 + (z + 1);
-        
+
         int intConversion = (int)0x8888888888888888;
         uint uintConversion = (uint)0x8888888888888888;
         long longConversion = (long)0x8888888888888888;
         ulong ulongConversion = (ulong)1E50;
-        
+
         int intOverflow = int.MaxValue + 1;
         uint uintOverflow = uint.MaxValue + 1;
         long longOverflow = long.MaxValue + 1;
         ulong ulongOverflow = ulong.MaxValue + 1;
-        
+
         int intUnderflow = int.MinValue - 1;
         uint uintUnderflow = uint.MinValue - 1;
         long longUnderflow = long.MinValue - 1;
