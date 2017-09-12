@@ -135,7 +135,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         IDS_FeatureLeadingDigitSeparator = MessageBase + 12723,
         IDS_FeatureNonTrailingNamedArguments = MessageBase + 12724,
-        IDS_FeatureConstParameter = MessageBase + 12725,
+        IDS_FeatureConstParameters = MessageBase + 12725,
 
     }
 
@@ -182,7 +182,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             {
                 case MessageID.IDS_FeatureIOperation:
                     return "IOperation";
-                case MessageID.IDS_FeatureConstParameter:
+                case MessageID.IDS_FeatureConstParameters:
                     return "ConstParameter";
                 default:
                     return null;
@@ -195,11 +195,6 @@ namespace Microsoft.CodeAnalysis.CSharp
             // Checks are in the LanguageParser unless otherwise noted.
             switch (feature)
             {
-
-                // C# 7.x features
-                case MessageID.IDS_FeatureConstParameter:
-
-
                 // C# 7.2 features.
                 case MessageID.IDS_FeatureNonTrailingNamedArguments: // semantic check
                 case MessageID.IDS_FeatureLeadingDigitSeparator:

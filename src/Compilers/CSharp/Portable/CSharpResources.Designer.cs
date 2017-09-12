@@ -10053,6 +10053,15 @@ namespace Microsoft.CodeAnalysis.CSharp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to const parameters.
+        /// </summary>
+        internal static string IDS_FeatureConstParameters {
+            get {
+                return ResourceManager.GetString("IDS_FeatureConstParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to default operator.
         /// </summary>
         internal static string IDS_FeatureDefault {
