@@ -18,9 +18,9 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests
         private const string DefaultTypeName = "C";
         private const string DefaultMethodName = "M";
 
-        internal static BoundBlock ParseAndBindMethodBody(string program, string typeName = DefaultTypeName, string methodName = DefaultMethodName)
+        internal static BoundBlock ParseAndBindMethodBody(string program, string typeName = DefaultTypeName, string methodName = DefaultMethodName, CSharpParseOptions parseOptions = null)
         {
-            var compilation = CreateStandardCompilation(program);
+            var compilation = CreateStandardCompilation(program, parseOptions: parseOptions);
             var method = (MethodSymbol)compilation.GlobalNamespace.GetTypeMembers(typeName).Single().GetMembers(methodName).Single();
 
             // Provide an Emit.Module so that the lowering passes will be run
