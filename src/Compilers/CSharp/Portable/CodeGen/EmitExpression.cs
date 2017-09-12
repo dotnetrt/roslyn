@@ -575,7 +575,7 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
 
         private void EmitArgument(BoundExpression argument, RefKind refKind)
         {
-            if (refKind == RefKind.None)
+            if (refKind == RefKind.None || refKind == RefKind.Const)
             {
                 EmitExpression(argument, true);
             }
