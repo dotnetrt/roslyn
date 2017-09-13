@@ -135,7 +135,11 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         IDS_FeatureLeadingDigitSeparator = MessageBase + 12723,
         IDS_FeatureNonTrailingNamedArguments = MessageBase + 12724,
-        IDS_FeatureConstParameters = MessageBase + 12725,
+
+        IDS_FeaturePrivateProtected = MessageBase + 12725,
+
+        // TODO - make numbering continuous before merging to master
+        IDS_FeatureConstParameters = MessageBase + 12799,
 
     }
 
@@ -198,6 +202,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 // C# 7.2 features.
                 case MessageID.IDS_FeatureNonTrailingNamedArguments: // semantic check
                 case MessageID.IDS_FeatureLeadingDigitSeparator:
+                case MessageID.IDS_FeaturePrivateProtected:
                     return LanguageVersion.CSharp7_2;
 
                 // C# 7.1 features.
