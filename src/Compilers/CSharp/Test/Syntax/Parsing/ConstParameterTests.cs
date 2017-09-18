@@ -229,6 +229,49 @@ public class B
             VerifyTestPassed(text, file);
         }
 
+        [Fact]
+        public void LocalMethodParConstPar()
+        {
+            var text =
+@"public class A
+{
+    public A()
+    {
+        InitializeA(new Object(), const -1);
+        void InitializeA(object o, const sbyte value)
+        {
+            return;
+        }
+    }
+}
+";
+            var file = this.ParseFileExperimental(text, MessageID.IDS_FeatureConstParameters);
+
+            VerifyTestPassed(text, file);
+        }
+
+        [Fact]
+        public void LocalMethodRefParConstPar()
+        {
+            var text =
+@"public class A
+{
+    public A()
+    {
+        var obj = new Object();
+        InitializeA(ref obj, const -1);
+        void InitializeA(ref object o, const sbyte value)
+        {
+            return;
+        }
+    }
+}
+";
+            var file = this.ParseFileExperimental(text, MessageID.IDS_FeatureConstParameters);
+
+            VerifyTestPassed(text, file);
+        }
+
         private static void VerifyTestPassed(string text, CompilationUnitSyntax file)
         {
             Assert.NotNull(file);
