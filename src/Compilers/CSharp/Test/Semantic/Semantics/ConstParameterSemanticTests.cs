@@ -86,7 +86,7 @@ public class C
             Assert.False(actual.Diagnostics.HasAnyErrors());
         }
 
-        [Fact(Skip = "Emit not implemented for constparameter feature")]
+        [Fact(Skip = "Emit not implemented for constparameters feature")]
         public void OverloadResolutionWithRefParConstParAndPar()
         {
             string source = @"

@@ -36,7 +36,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private static ImmutableArray<MethodSymbol> GetOriginalMethods(OverloadResolutionResult<MethodSymbol> overloadResolutionResult)
         {
-            // If overload resolution has failed then we want to stash away the original methods that we 
+            // If overload resolution has failed then we want to stash away the original methods that we
             // considered so that the IDE can display tooltips or other information about them.
             // However, if a method group contained a generic method that was type inferred then
             // the IDE wants information about the *inferred* method, not the original unconstructed
@@ -123,7 +123,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 node, node, methodName, boundExpression, analyzedArguments, diagnostics, queryClause,
                 allowUnexpandedForm: allowUnexpandedForm);
 
-            // Query operator can't be called dynamically. 
+            // Query operator can't be called dynamically.
             if (queryClause != null && result.Kind == BoundKind.DynamicInvocation)
             {
                 // the error has already been reported by BindInvocationExpression
@@ -215,7 +215,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             if ((object)boundExpression.Type != null && boundExpression.Type.IsDynamic())
             {
-                // Either we have a dynamic method group invocation "dyn.M(...)" or 
+                // Either we have a dynamic method group invocation "dyn.M(...)" or
                 // a dynamic delegate invocation "dyn(...)" -- either way, bind it as a dynamic
                 // invocation and let the lowering pass sort it out.
                 result = BindDynamicInvocation(node, boundExpression, analyzedArguments, ImmutableArray<MethodSymbol>.Empty, diagnostics, queryClause);
@@ -279,7 +279,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                             if ((InConstructorInitializer || InFieldInitializer) && receiver.WasCompilerGenerated)
                             {
                                 // Only a static method can be called in a constructor initializer. If we were not in a ctor initializer
-                                // the runtime binder would ignore the receiver, but in a ctor initializer we can't read "this" before 
+                                // the runtime binder would ignore the receiver, but in a ctor initializer we can't read "this" before
                                 // the base constructor is called. We need to handle this as a type qualified static method call.
                                 // Also applicable to things like field initializers, which run before the ctor initializer.
                                 expression = methodGroup.Update(
@@ -597,7 +597,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                             // casting the dynamic arguments or calling the extension method without the extension method
                             // syntax.
 
-                            // We found an extension method, so the instance associated with the method group must have 
+                            // We found an extension method, so the instance associated with the method group must have
                             // existed and had a type.
                             Debug.Assert(methodGroup.InstanceOpt != null && (object)methodGroup.InstanceOpt.Type != null);
 
@@ -613,12 +613,12 @@ namespace Microsoft.CodeAnalysis.CSharp
                                 Error(diagnostics, ErrorCode.WRN_DynamicDispatchToConditionalMethod, syntax, methodGroup.Name);
                             }
 
-                            // Note that the runtime binder may consider candidates that haven't passed compile-time final validation 
-                            // and an ambiguity error may be reported. Also additional checks are performed in runtime final validation 
+                            // Note that the runtime binder may consider candidates that haven't passed compile-time final validation
+                            // and an ambiguity error may be reported. Also additional checks are performed in runtime final validation
                             // that are not performed at compile-time.
                             // Only if the set of final applicable candidates is empty we know for sure the call will fail at runtime.
-                            var finalApplicableCandidates = GetCandidatesPassingFinalValidation(syntax, resolution.OverloadResolutionResult, 
-                                                                                                methodGroup.ReceiverOpt, 
+                            var finalApplicableCandidates = GetCandidatesPassingFinalValidation(syntax, resolution.OverloadResolutionResult,
+                                                                                                methodGroup.ReceiverOpt,
                                                                                                 methodGroup.TypeArgumentsOpt,
                                                                                                 diagnostics);
                             if (finalApplicableCandidates.Length > 0)
@@ -749,7 +749,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private ImmutableArray<TMethodOrPropertySymbol> GetCandidatesPassingFinalValidation<TMethodOrPropertySymbol>(
-            SyntaxNode syntax, 
+            SyntaxNode syntax,
             OverloadResolutionResult<TMethodOrPropertySymbol> overloadResolutionResult,
             BoundExpression receiverOpt,
             ImmutableArray<TypeSymbol> typeArgumentsOpt,
@@ -769,9 +769,9 @@ namespace Microsoft.CodeAnalysis.CSharp
                     // For F to pass the check, all of the following must hold:
                     //      ...
                     // * If the type parameters of F were substituted in the step above, their constraints are satisfied.
-                    // * If F is a static method, the method group must have resulted from a simple-name, a member-access through a type, 
-                    //   or a member-access whose receiver can't be classified as a type or value until after overload resolution (see §7.6.4.1). 
-                    // * If F is an instance method, the method group must have resulted from a simple-name, a member-access through a variable or value, 
+                    // * If F is a static method, the method group must have resulted from a simple-name, a member-access through a type,
+                    //   or a member-access whose receiver can't be classified as a type or value until after overload resolution (see §7.6.4.1).
+                    // * If F is an instance method, the method group must have resulted from a simple-name, a member-access through a variable or value,
                     //   or a member-access whose receiver can't be classified as a type or value until after overload resolution (see §7.6.4.1).
 
                     if (!MemberGroupFinalValidationAccessibilityChecks(receiverOpt, result.Member, syntax, candidateDiagnostics, invokedAsExtensionMethod: false) &&
@@ -929,7 +929,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     GetOriginalMethods(result), methodGroup.ResultKind, methodGroup.TypeArguments.ToImmutable(), analyzedArguments, invokedAsExtensionMethod: invokedAsExtensionMethod, isDelegate: ((object)delegateTypeOpt != null));
             }
 
-            // Otherwise, there were no dynamic arguments and overload resolution found a unique best candidate. 
+            // Otherwise, there were no dynamic arguments and overload resolution found a unique best candidate.
             // We still have to determine if it passes final validation.
 
             var methodResult = result.ValidResult;
