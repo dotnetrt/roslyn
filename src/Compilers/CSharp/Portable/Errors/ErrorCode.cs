@@ -668,11 +668,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         //ERR_ExtensionTypeParam = 1111,
         ERR_ExplicitExtension = 1112,
         ERR_ValueTypeExtDelegate = 1113,
-        ERR_BadConstWithThis  = 1114,
-        ERR_ParamsCantBeConstRef = 1115,
-        ERR_ParamsCantBeConstOut = 1116,
-        ERR_ParamsCantBeConst = 1117,
-        // unused 1118-1199
+        // unused 1114-1199
         // Below five error codes are unused.
         // WRN_FeatureDeprecated2 = 1200,
         // WRN_FeatureDeprecated3 = 1201,

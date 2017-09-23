@@ -272,6 +272,128 @@ public class B
             VerifyTestPassed(text, file);
         }
 
+        [Fact]
+        public void MethodConstParDefoultVal()
+        {
+            var text =
+@"public class A
+{
+    public void TestConst(const int value = -1)
+    {
+        return;
+    }
+}
+";
+            var file = this.ParseFileExperimental(text, MessageID.IDS_FeatureConstParameters);
+
+            VerifyTestPassed(text, file);
+        }
+
+        [Fact]
+        public void MethodOutParConstParDefoultVal()
+        {
+            var text =
+@"public class A
+{
+    public void TestConst(out object obj, const int value = -1)
+    {
+        obj = null;
+        return;
+    }
+}
+";
+            var file = this.ParseFileExperimental(text, MessageID.IDS_FeatureConstParameters);
+
+            VerifyTestPassed(text, file);
+        }
+
+        [Fact]
+        public void GenericMethodOutParConstParDefoultValWhereClause()
+        {
+            var text =
+@"public class A
+{
+    public void TestConst<T>(out T obj, const int value = -1) where T : class
+    {
+        obj = null;
+        return;
+    }
+}
+";
+            var file = this.ParseFileExperimental(text, MessageID.IDS_FeatureConstParameters);
+
+            VerifyTestPassed(text, file);
+        }
+
+        [Fact]
+        public void MethodsAllConstParTypesDefaultVal()
+        {
+            var text =
+@"public class A
+{
+    public void TestByteConst(const byte value = 255)
+    {
+        return;
+    }
+    public void TestSByteConst(const sbyte value = -128)
+    {
+        return;
+    }
+    public void TestShortConst(const short value = short.MinValue)
+    {
+        return;
+    }
+    public void TestUShortConst(const ushort value = ushort.MaxValue)
+    {
+        return;
+    }
+    public void TestIntConst(const int value = -1)
+    {
+        return;
+    }
+    public void TestUIntConst(const uint value = 67987)
+    {
+        return;
+    }
+    public void TestLongConst(const long value = long.MinValue)
+    {
+        return;
+    }
+    public void TestULongConst(const ulong value = long.MaxValue)
+    {
+        return;
+    }
+    public void TestFloatConst(const float value = 1.1f)
+    {
+        return;
+    }
+    public void TestDoubleConst(const double value = -1.1)
+    {
+        return;
+    }
+    public void TestDecimalConst(const decimal value = 1.1f)
+    {
+        return;
+    }
+    public void TestCharConst(const char value = '\t')
+    {
+        return;
+    }
+    public void TestStringConst(const string value = String.Empty)
+    {
+        return;
+    }
+    public void TestBoolConst(const bool value = true)
+    {
+        return;
+    }
+}
+";
+            var file = this.ParseFileExperimental(text, MessageID.IDS_FeatureConstParameters);
+
+            VerifyTestPassed(text, file);
+        }
+
         private static void VerifyTestPassed(string text, CompilationUnitSyntax file)
         {
             Assert.NotNull(file);

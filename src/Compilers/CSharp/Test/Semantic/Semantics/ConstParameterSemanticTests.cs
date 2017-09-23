@@ -86,6 +86,49 @@ public class C
             Assert.False(actual.Diagnostics.HasAnyErrors());
         }
 
+        [Fact]
+        public void OverloadResolutionWithConstParAndParConstExpression()
+        {
+            string source = @"
+public class C
+{
+    public void TestConstant(const int value) { return; }
+    public void TestConstant(int value) { return; }
+    public void M() { TestConstant(const ((1 << 8) | (1 << 4) | (1 << 2))); }
+}
+";
+            // TODO: Enable verification after implementing CodeGen, Emit and symbol import
+            var actual = CompileAndVerifyExperimental(source, MessageID.IDS_FeatureConstParameters, verify: false);
+            Assert.False(actual.Diagnostics.HasAnyErrors());
+        }
+
+        [Fact]
+        public void OverloadResolutionWithConstParAndParBadArg()
+        {
+            string source = @"
+public class C
+{
+    public void TestConstant(const int value) { return; }
+    public void TestConstant(int value) { return; }
+    public void M(int value) { TestConstant(const value); }
+}
+";
+            // TODO: Change diagnostics verification pattern to expected
+            Roslyn.Test.Utilities.EmitException eex = null;
+            try
+            {
+                CompileAndVerifyExperimental(source, MessageID.IDS_FeatureConstParameters, verify: false);
+            }
+            catch(Roslyn.Test.Utilities.EmitException emitEx)
+            {
+                eex = emitEx;
+            }
+
+            Assert.NotNull(eex);
+            Assert.Contains("(6,51): error CS0150: A constant value is expected", eex.Diagnostics.First().ToString());
+
+        }
+
         [Fact(Skip = "Emit not implemented for constparameters feature")]
         public void OverloadResolutionWithRefParConstParAndPar()
         {
