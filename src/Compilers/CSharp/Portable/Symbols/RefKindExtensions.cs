@@ -1,26 +1,22 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
+using System.Diagnostics;
 using Roslyn.Utilities;
 
 namespace Microsoft.CodeAnalysis.CSharp.Symbols
 {
     internal static partial class RefKindExtensions
     {
-        public static SyntaxToken GetToken(this RefKind refKind)
+        public static bool IsManagedReference(this RefKind refKind)
         {
-            if (refKind == RefKind.Out)
-            {
-                return SyntaxFactory.Token(SyntaxKind.OutKeyword);
-            }
-            if (refKind == RefKind.Ref)
-            {
-                return SyntaxFactory.Token(SyntaxKind.RefKeyword);
-            }
             if (refKind == RefKind.Const)
             {
-                return SyntaxFactory.Token(SyntaxKind.ConstKeyword);
+                return false;
             }
-            return default(SyntaxToken);
+
+            Debug.Assert(refKind <= RefKind.RefReadOnly);
+
+            return refKind != RefKind.None;
         }
 
         public static RefKind GetRefKind(this SyntaxKind syntaxKind)
