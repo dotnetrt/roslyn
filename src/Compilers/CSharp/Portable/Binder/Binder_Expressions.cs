@@ -177,7 +177,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         /// Returned bound expression is guaranteed to have a non-null type, except when <paramref name="expr"/> is an unbound lambda.
         /// If <paramref name="expr"/> already has errors and meets the above type requirements, then it is returned unchanged.
         /// Otherwise, if <paramref name="expr"/> is a BoundBadExpression, then it is updated with the <paramref name="resultKind"/> and non-null type.
-        /// Otherwise, a new <see cref="BoundBadExpression"/> wrapping <paramref name="expr"/> is returned. 
+        /// Otherwise, a new <see cref="BoundBadExpression"/> wrapping <paramref name="expr"/> is returned.
         /// </summary>
         /// <remarks>
         /// Returned expression need not be a <see cref="BoundBadExpression"/>, but is guaranteed to have HasErrors set to true.
@@ -332,7 +332,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         // PERF: allowArgList is not a parameter because it is fairly uncommon case where arglists are allowed
-        //       so we do not want to pass that argument to every BindExpression which is often recursive 
+        //       so we do not want to pass that argument to every BindExpression which is often recursive
         //       and extra arguments contribute to the stack size.
         protected BoundExpression BindExpressionAllowArgList(ExpressionSyntax node, DiagnosticBag diagnostics)
         {
@@ -543,7 +543,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     // may be used by SemanticModel for error cases.
                     // NOTE: This happens when there's a problem with the Nullable<T> type (e.g. it's missing).
                     // There is no corresponding problem for array or pointer types (which seem analogous), since
-                    // they are not constructed types; the element type can be an error type, but the array/pointer 
+                    // they are not constructed types; the element type can be an error type, but the array/pointer
                     // type cannot.
                     return BadExpression(node);
 
@@ -997,7 +997,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         private BoundExpression BindArgList(CSharpSyntaxNode node, DiagnosticBag diagnostics)
         {
             // There are two forms of __arglist expression. In a method with an __arglist parameter,
-            // it is legal to use __arglist as an expression of type RuntimeArgumentHandle. In 
+            // it is legal to use __arglist as an expression of type RuntimeArgumentHandle. In
             // a call to such a method, it is legal to use __arglist(x, y, z) as the final argument.
             // This method only handles the first usage; the second usage is parsed as a call syntax.
 
@@ -1013,7 +1013,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             //   }
             // }
             //
-            // This is clearly wrong. Either the developer intends __arglist to refer to the 
+            // This is clearly wrong. Either the developer intends __arglist to refer to the
             // arg list of the *lambda*, or to the arg list of *M*. The former makes no sense;
             // lambdas cannot have an arg list. The latter we have no way to generate code for;
             // you cannot hoist the arg list to a field of a closure class.
@@ -1313,9 +1313,9 @@ namespace Microsoft.CodeAnalysis.CSharp
             // SPEC: enclosing type declaration, and continuing with the instance type of each
             // SPEC: enclosing class or struct declaration, [do a lot of things to find a match].
             // SPEC: ...
-            // SPEC: If T is the instance type of the immediately enclosing class or struct type 
-            // SPEC: and the lookup identifies one or more methods, the result is a method group 
-            // SPEC: with an associated instance expression of this. 
+            // SPEC: If T is the instance type of the immediately enclosing class or struct type
+            // SPEC: and the lookup identifies one or more methods, the result is a method group
+            // SPEC: with an associated instance expression of this.
 
             // Explanation of spec:
             //
@@ -1323,10 +1323,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             // meaning of a simple name; for example "M(123)".
             //
             // There are a number of possibilities:
-            // 
+            //
             // If the lookup finds M in an outer class:
             //
-            // class Outer { 
+            // class Outer {
             //     static void M(int x) {}
             //     class Inner {
             //         void X() { M(123); }
@@ -1335,7 +1335,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             //
             // or the base class of an outer class:
             //
-            // class Base { 
+            // class Base {
             //     public static void M(int x) {}
             // }
             // class Outer : Base {
@@ -1350,7 +1350,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             // If the lookup finds M on the class that triggered the lookup on the other hand, or
             // one of its base classes:
             //
-            // class Base { 
+            // class Base {
             //     public static void M(int x) {}
             // }
             // class Derived : Base {
@@ -1364,13 +1364,13 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             // Implementation explanation:
             //
-            // If we're here, then lookup has identified one or more methods.  
+            // If we're here, then lookup has identified one or more methods.
             Debug.Assert(members.Count > 0);
 
-            // The lookup implementation loops over the set of types from inner to outer, and stops 
+            // The lookup implementation loops over the set of types from inner to outer, and stops
             // when it makes a match. (This is correct because any matches found on more-outer types
-            // would be hidden, and discarded.) This means that we only find members associated with 
-            // one containing class or struct. The method is possibly on that type directly, or via 
+            // would be hidden, and discarded.) This means that we only find members associated with
+            // one containing class or struct. The method is possibly on that type directly, or via
             // inheritance from a base type of the type.
             //
             // The question then is what the "associated instance expression" is; is it "this" or
@@ -1381,7 +1381,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             var currentType = this.ContainingType;
             if ((object)currentType == null)
             {
-                // This may happen if there is no containing type, 
+                // This may happen if there is no containing type,
                 // e.g. we are binding an expression in an assembly-level attribute
                 return null;
             }
@@ -1444,12 +1444,12 @@ namespace Microsoft.CodeAnalysis.CSharp
                             // Cannot use local variable 'x' before it is declared
                             //
                             // CS0844: ERR_VariableUsedBeforeDeclarationAndHidesField
-                            // Cannot use local variable 'x' before it is declared. The 
+                            // Cannot use local variable 'x' before it is declared. The
                             // declaration of the local variable hides the field 'C.x'.
                             //
                             // There are two situations in which we give these errors.
                             //
-                            // First, the scope of a local variable -- that is, the region of program 
+                            // First, the scope of a local variable -- that is, the region of program
                             // text in which it can be looked up by name -- is throughout the entire
                             // block which declares it. It is therefore possible to use a local
                             // before it is declared, which is an error.
@@ -1457,10 +1457,10 @@ namespace Microsoft.CodeAnalysis.CSharp
                             // As an additional help to the user, we give a special error for this
                             // scenario:
                             //
-                            // class C { 
-                            //  int x; 
-                            //  void M() { 
-                            //    Print(x); 
+                            // class C {
+                            //  int x;
+                            //  void M() {
+                            //    Print(x);
                             //    int x = 5;
                             //  } }
                             //
@@ -1803,7 +1803,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         private bool IsRefOrOutThisParameterCaptured(SyntaxNode node, DiagnosticBag diagnostics)
         {
             ParameterSymbol thisSymbol = this.ContainingMemberOrLambda.EnclosingThisSymbol();
-            // If there is no this parameter, then it is definitely not captured and 
+            // If there is no this parameter, then it is definitely not captured and
             // any diagnostic would be cascading.
             if ((object)thisSymbol != null && thisSymbol.ContainingSymbol != ContainingMemberOrLambda && thisSymbol.RefKind != RefKind.None)
             {
@@ -1994,9 +1994,9 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             // report all leaf elements of the tuple literal that failed to convert
             // NOTE: we are not responsible for reporting use site errors here, just the failed leaf conversions.
-            // By the time we get here we have done analysis and know we have failed the cast in general, and diagnostics collected in the process is already in the bag. 
+            // By the time we get here we have done analysis and know we have failed the cast in general, and diagnostics collected in the process is already in the bag.
             // The only thing left is to form a diagnostics about the actually failing conversion(s).
-            // This whole method does not itself collect any usesite diagnostics. Its only purpose is to produce an error better than "conversion failed here"           
+            // This whole method does not itself collect any usesite diagnostics. Its only purpose is to produce an error better than "conversion failed here"
             HashSet<DiagnosticInfo> usDiagsUnused = null;
 
             for (int i = 0; i < targetElementTypes.Length; i++)
@@ -2014,8 +2014,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         /// <summary>
         /// This implements the casting behavior described in section 6.2.3 of the spec:
-        /// 
-        /// - If the nullable conversion is from S to T?, the conversion is evaluated as the underlying conversion 
+        ///
+        /// - If the nullable conversion is from S to T?, the conversion is evaluated as the underlying conversion
         ///   from S to T followed by a wrapping from T to T?.
         ///
         /// This particular check is done in the binder because it involves conversion processing rules (like overflow
@@ -2055,9 +2055,9 @@ namespace Microsoft.CodeAnalysis.CSharp
                         hasErrors: true);
                 }
 
-                // It's possible for the S -> T conversion to produce a 'better' constant value.  If this 
-                // constant value is produced place it in the tree so that it gets emitted.  This maintains 
-                // parity with the native compiler which also evaluated the conversion at compile time. 
+                // It's possible for the S -> T conversion to produce a 'better' constant value.  If this
+                // constant value is produced place it in the tree so that it gets emitted.  This maintains
+                // parity with the native compiler which also evaluated the conversion at compile time.
                 if (underlyingExpr.ConstantValue != null)
                 {
                     underlyingExpr.WasCompilerGenerated = true;
@@ -2438,7 +2438,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                 string name = nameColonSyntax.Name.Identifier.ValueText;
 
-                // Note that because of this nested loop this is an O(n^2) algorithm; 
+                // Note that because of this nested loop this is an O(n^2) algorithm;
                 // however, the set of named arguments in an invocation is likely to be small.
 
                 bool hasNameCollision = false;
@@ -2493,6 +2493,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             else
             {
                 argument = this.BindValue(argumentExpression, diagnostics, valueKind);
+            }
+
+            if (refKind == RefKind.Const)
+            {
+                if (argument.ConstantValue == null)
+                    diagnostics.Add(ErrorCode.ERR_ConstantExpected, argumentExpression.Location);
             }
 
             return argument;
@@ -2565,22 +2571,22 @@ namespace Microsoft.CodeAnalysis.CSharp
             //
             // array-creation-expression:
             //     new non-array-type[expression-list] rank-specifiersopt array-initializeropt
-            //     new array-type array-initializer 
+            //     new array-type array-initializer
             //     new rank-specifier array-initializer
             //
             // An array creation expression of the first form allocates an array instance of the
-            // type that results from deleting each of the individual expressions from the 
+            // type that results from deleting each of the individual expressions from the
             // expression list. For example, the array creation expression new int[10, 20] produces
             // an array instance of type int[,], and the array creation expression new int[10][,]
             // produces an array of type int[][,]. Each expression in the expression list must be of
             // type int, uint, long, or ulong, or implicitly convertible to one or more of these
             // types. The value of each expression determines the length of the corresponding
             // dimension in the newly allocated array instance. Since the length of an array
-            // dimension must be nonnegative, it is a compile-time error to have a 
+            // dimension must be nonnegative, it is a compile-time error to have a
             // constant-expression with a negative value in the expression list.
             //
             // If an array creation expression of the first form includes an array initializer, each
-            // expression in the expression list must be a constant and the rank and dimension 
+            // expression in the expression list must be a constant and the rank and dimension
             // lengths specified by the expression list must match those of the array initializer.
             //
             // In an array creation expression of the second or third form, the rank of the
@@ -2609,7 +2615,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             //
             // int[][] a = new int[100][5];		// Error
             //
-            // results in a compile-time error. 
+            // results in a compile-time error.
             //
             // The following are examples of implicitly typed array creation expressions:
             //
@@ -2618,7 +2624,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             // var c = new[,] { { "hello", null }, { "world", "!" } }; // string[,]
             // var d = new[] { 1, "one", 2, "two" };                   // Error
             //
-            // The last expression causes a compile-time error because neither int nor string is 
+            // The last expression causes a compile-time error because neither int nor string is
             // implicitly convertible to the other, and so there is no best common type. An
             // explicitly typed array creation expression must be used in this case, for example
             // specifying the type to be object[]. Alternatively, one of the elements can be cast to
@@ -2628,11 +2634,11 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             var type = (ArrayTypeSymbol)BindType(node.Type, diagnostics);
 
-            // CONSIDER: 
+            // CONSIDER:
             //
             // There may be erroneous rank specifiers in the source code, for example:
             //
-            // int y = 123; 
+            // int y = 123;
             // int[][] z = new int[10][y];
             //
             // The "10" is legal but the "y" is not. If we are in such a situation we do have the
@@ -3180,9 +3186,9 @@ namespace Microsoft.CodeAnalysis.CSharp
         /// Bind the (implicit or explicit) constructor initializer of a constructor symbol (in source).
         /// </summary>
         /// <param name="initializerArgumentListOpt">
-        /// Null for implicit, 
-        /// BaseConstructorInitializerSyntax.ArgumentList, or 
-        /// ThisConstructorInitializerSyntax.ArgumentList, or 
+        /// Null for implicit,
+        /// BaseConstructorInitializerSyntax.ArgumentList, or
+        /// ThisConstructorInitializerSyntax.ArgumentList, or
         /// BaseClassWithArgumentsSyntax.ArgumentList for explicit.</param>
         /// <param name="constructor">Constructor containing the initializer.</param>
         /// <param name="diagnostics">Accumulates errors (e.g. unable to find constructor to invoke).</param>
@@ -3366,11 +3372,11 @@ namespace Microsoft.CodeAnalysis.CSharp
                         nonNullSyntax,
                         resultMember,
                         receiver,
-                        resultMember.Parameters, 
-                        arguments, 
-                        refKinds, 
-                        argsToParamsOpt, 
-                        this.LocalScopeDepth, 
+                        resultMember.Parameters,
+                        arguments,
+                        refKinds,
+                        argsToParamsOpt,
+                        this.LocalScopeDepth,
                         diagnostics);
 
                     return new BoundCall(
@@ -3639,7 +3645,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 // new C(__arglist()) is legal
                 BindArgumentsAndNames(node.ArgumentList, diagnostics, analyzedArguments, allowArglist: true);
 
-                // No point in performing overload resolution if the type is static or a tuple literal.  
+                // No point in performing overload resolution if the type is static or a tuple literal.
                 // Just return a bad expression containing the arguments.
                 if (type.IsStatic)
                 {
@@ -4349,19 +4355,19 @@ namespace Microsoft.CodeAnalysis.CSharp
             NamedTypeSymbol containingType = this.ContainingType;
             if ((object)containingType != null)
             {
-                // SPEC VIOLATION: The specification implies that when considering 
-                // SPEC VIOLATION: instance methods or instance constructors, we first 
-                // SPEC VIOLATION: do overload resolution on the accessible members, and 
-                // SPEC VIOLATION: then if the best method chosen is protected and accessed 
-                // SPEC VIOLATION: through the wrong type, then an error occurs. The native 
+                // SPEC VIOLATION: The specification implies that when considering
+                // SPEC VIOLATION: instance methods or instance constructors, we first
+                // SPEC VIOLATION: do overload resolution on the accessible members, and
+                // SPEC VIOLATION: then if the best method chosen is protected and accessed
+                // SPEC VIOLATION: through the wrong type, then an error occurs. The native
                 // SPEC VIOLATION: compiler however does it in the opposite order. First it
                 // SPEC VIOLATION: filters out the protected methods that cannot be called
                 // SPEC VIOLATION: through the given type, and then it does overload resolution
                 // SPEC VIOLATION: on the rest.
-                // 
+                //
                 // That said, it is somewhat odd that the same rule applies to constructors
                 // as instance methods. A protected constructor is never going to be called
-                // via an instance of a *more derived but different class* the way a 
+                // via an instance of a *more derived but different class* the way a
                 // virtual method might be. Nevertheless, that's what we do.
                 //
                 // A constructor is accessed through an instance of the type being constructed:
@@ -4544,7 +4550,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             Debug.Assert((object)type != null);
 
-            // COM interfaces which have ComImportAttribute and CoClassAttribute can be instantiated with "new". 
+            // COM interfaces which have ComImportAttribute and CoClassAttribute can be instantiated with "new".
             // CoClassAttribute contains the type information of the original CoClass for the interface.
             // We replace the interface creation with CoClass object creation for this case.
 
@@ -4597,7 +4603,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 //          [CoClass(typeof(GenericClass<>))]
                 //          public interface InterfaceType {}
                 //          public class GenericClass<T>: InterfaceType {}
-                // 
+                //
                 //          public class Program
                 //          {
                 //              public static void Main() { var i = new InterfaceType(); }
@@ -4813,15 +4819,15 @@ namespace Microsoft.CodeAnalysis.CSharp
                     // It is not legal to directly call a protected constructor on a base class unless
                     // the "this" of the call is known to be of the current type. That is, it is
                     // perfectly legal to say ": base()" to call a protected base class ctor, but
-                    // it is not legal to say "new MyBase()" if the ctor is protected. 
+                    // it is not legal to say "new MyBase()" if the ctor is protected.
                     //
                     // The native compiler produces the error CS1540:
                     //
-                    //   Cannot access protected member 'MyBase.MyBase' via a qualifier of type 'MyBase'; 
+                    //   Cannot access protected member 'MyBase.MyBase' via a qualifier of type 'MyBase';
                     //   the qualifier must be of type 'Derived' (or derived from it)
                     //
                     // Though technically correct, this is a very confusing error message for this scenario;
-                    // one does not typically think of the constructor as being a method that is 
+                    // one does not typically think of the constructor as being a method that is
                     // called with an implicit "this" of a particular receiver type, even though of course
                     // that is exactly what it is.
                     //
@@ -4830,7 +4836,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     //
                     // CONSIDER: We might consider making up a new error message for this situation.
 
-                    // 
+                    //
                     // CS0122: 'MyBase.MyBase' is inaccessible due to its protection level
                     diagnostics.Add(ErrorCode.ERR_BadAccess, errorLocation, result.ValidResult.Member);
                 }
@@ -4872,7 +4878,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             // Object creation expressions like "new int()" are not considered constant expressions
             // by the specification but they are by the native compiler; we maintain compatibility
             // with this bug.
-            // 
+            //
             // Additionally, it also treats "new X()", where X is an enum type, as a
             // constant expression with default value 0, we maintain compatibility with it.
 
@@ -5005,10 +5011,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             // SPEC: 7.6.4.1 Identical simple names and type names
             // SPEC: In a member access of the form E.I, if E is a single identifier, and if the meaning of E as
             // SPEC: a simple-name (spec 7.6.2) is a constant, field, property, local variable, or parameter with the
-            // SPEC: same type as the meaning of E as a type-name (spec 3.8), then both possible meanings of E are 
+            // SPEC: same type as the meaning of E as a type-name (spec 3.8), then both possible meanings of E are
             // SPEC: permitted. The two possible meanings of E.I are never ambiguous, since I must necessarily be
-            // SPEC: a member of the type E in both cases. In other words, the rule simply permits access to the 
-            // SPEC: static members and nested types of E where a compile-time error would otherwise have occurred. 
+            // SPEC: a member of the type E in both cases. In other words, the rule simply permits access to the
+            // SPEC: static members and nested types of E where a compile-time error would otherwise have occurred.
 
             if (left.Kind() == SyntaxKind.IdentifierName)
             {
@@ -5071,7 +5077,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         // returns true if name matches a using alias in scope
-        // NOTE: when true is returned, the corresponding using is also marked as "used" 
+        // NOTE: when true is returned, the corresponding using is also marked as "used"
         private bool IsUsingAliasInScope(string name)
         {
             var isSemanticModel = this.IsSemanticModelBinder;
@@ -5206,20 +5212,20 @@ namespace Microsoft.CodeAnalysis.CSharp
                 bool rightHasTypeArguments = typeArgumentsSyntax.Count > 0;
                 var typeArguments = rightHasTypeArguments ? BindTypeArguments(typeArgumentsSyntax, diagnostics) : default(ImmutableArray<TypeSymbol>);
 
-                // A member-access consists of a primary-expression, a predefined-type, or a 
-                // qualified-alias-member, followed by a "." token, followed by an identifier, 
+                // A member-access consists of a primary-expression, a predefined-type, or a
+                // qualified-alias-member, followed by a "." token, followed by an identifier,
                 // optionally followed by a type-argument-list.
 
                 // A member-access is either of the form E.I or of the form E.I<A1, ..., AK>, where
                 // E is a primary-expression, I is a single identifier and <A1, ..., AK> is an
                 // optional type-argument-list. When no type-argument-list is specified, consider K
-                // to be zero. 
+                // to be zero.
 
-                // UNDONE: A member-access with a primary-expression of type dynamic is dynamically bound. 
-                // UNDONE: In this case the compiler classifies the member access as a property access of 
-                // UNDONE: type dynamic. The rules below to determine the meaning of the member-access are 
-                // UNDONE: then applied at run-time, using the run-time type instead of the compile-time 
-                // UNDONE: type of the primary-expression. If this run-time classification leads to a method 
+                // UNDONE: A member-access with a primary-expression of type dynamic is dynamically bound.
+                // UNDONE: In this case the compiler classifies the member access as a property access of
+                // UNDONE: type dynamic. The rules below to determine the meaning of the member-access are
+                // UNDONE: then applied at run-time, using the run-time type instead of the compile-time
+                // UNDONE: type of the primary-expression. If this run-time classification leads to a method
                 // UNDONE: group, then the member access must be the primary-expression of an invocation-expression.
 
                 // The member-access is evaluated and classified as follows:
@@ -5231,7 +5237,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 {
                     case BoundKind.NamespaceExpression:
                         {
-                            // If K is zero and E is a namespace and E contains a nested namespace with name I, 
+                            // If K is zero and E is a namespace and E contains a nested namespace with name I,
                             // then the result is that namespace.
 
                             var ns = ((BoundNamespaceExpression)boundLeft).NamespaceSymbol;
@@ -5776,7 +5782,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                     case SymbolKind.Field:
                         // If I identifies a static field:
-                        // UNDONE: If the field is readonly and the reference occurs outside the static constructor of 
+                        // UNDONE: If the field is readonly and the reference occurs outside the static constructor of
                         // UNDONE: the class or struct in which the field is declared, then the result is a value, namely
                         // UNDONE: the value of the static field I in E.
                         // UNDONE: Otherwise, the result is a variable, namely the static field I in E.
@@ -5853,7 +5859,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 var sealedDiagnostics = diagnostics.ToReadOnlyAndFree();
                 var result = new MethodGroupResolution(methodGroup, null, overloadResolutionResult, actualArguments, methodGroup.ResultKind, sealedDiagnostics);
 
-                // If the search in the current scope resulted in any applicable method (regardless of whether a best 
+                // If the search in the current scope resulted in any applicable method (regardless of whether a best
                 // applicable method could be determined) then our search is complete. Otherwise, store aside the
                 // first non-applicable result and continue searching for an applicable result.
                 if (result.HasAnyApplicableMethod)
@@ -6313,7 +6319,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             // Did we have any errors?
             if (analyzedArguments.HasErrors || expr.HasAnyErrors)
             {
-                // At this point we definitely have reported an error, but we still might be 
+                // At this point we definitely have reported an error, but we still might be
                 // able to get more semantic analysis of the indexing operation. We do not
                 // want to report cascading errors.
 
@@ -6396,7 +6402,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             // Note that the spec says to determine which of {int, uint, long, ulong} *each* index
             // expression is convertible to. That is not what C# 1 through 4 did; the
             // implementations instead determined which of those four types *all* of the index
-            // expressions converted to. 
+            // expressions converted to.
 
             int rank = arrayType.Rank;
 
@@ -6723,8 +6729,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             if (analyzedArguments.HasDynamicArgument && overloadResolutionResult.HasAnyApplicableMember)
             {
-                // Note that the runtime binder may consider candidates that haven't passed compile-time final validation 
-                // and an ambiguity error may be reported. Also additional checks are performed in runtime final validation 
+                // Note that the runtime binder may consider candidates that haven't passed compile-time final validation
+                // and an ambiguity error may be reported. Also additional checks are performed in runtime final validation
                 // that are not performed at compile-time.
                 // Only if the set of final applicable candidates is empty we know for sure the call will fail at runtime.
                 var finalApplicableCandidates = GetCandidatesPassingFinalValidation(syntax, overloadResolutionResult, receiverOpt, default(ImmutableArray<TypeSymbol>), diagnostics);
@@ -6737,7 +6743,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             if (!overloadResolutionResult.Succeeded)
             {
                 // If the arguments had an error reported about them then suppress further error
-                // reporting for overload resolution. 
+                // reporting for overload resolution.
 
                 ImmutableArray<PropertySymbol> candidates = propertyGroup.ToImmutable();
 
@@ -6890,7 +6896,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 methodGroup, analyzedArguments, isMethodGroupConversion, ref useSiteDiagnostics,
                 inferWithDynamic: inferWithDynamic, allowUnexpandedForm: allowUnexpandedForm);
 
-            // If the method group's receiver is dynamic then there is no point in looking for extension methods; 
+            // If the method group's receiver is dynamic then there is no point in looking for extension methods;
             // it's going to be a dynamic invocation.
             if (!methodGroup.SearchExtensionMethods || methodResolution.HasAnyApplicableMethod || methodGroup.MethodGroupReceiverIsDynamic())
             {
@@ -7184,7 +7190,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             BoundExpression receiver = this.ConditionalReceiverExpression;
             if (receiver?.Syntax != GetConditionalReceiverSyntax(conditionalAccessNode))
             {
-                // this can happen when semantic model binds parts of a Call or a broken access expression. 
+                // this can happen when semantic model binds parts of a Call or a broken access expression.
                 // We may not have receiver available in such cases.
                 // Not a problem - we only need receiver to get its type and we can bind it here.
                 receiver = BindConditionalAccessReceiver(conditionalAccessNode, diagnostics);
