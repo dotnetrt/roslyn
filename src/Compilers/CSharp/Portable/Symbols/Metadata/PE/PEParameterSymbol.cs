@@ -37,22 +37,22 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols.Metadata.PE
         private struct PackedFlags
         {
             // Layout:
-            // |.............|n|rr|cccccccc|vvvvvvvv|
+            // |............|n|rrr|cccccccc|vvvvvvvv|
             // 
             // v = decoded well known attribute values. 8 bits.
             // c = completion states for well known attributes. 1 if given attribute has been decoded, 0 otherwise. 8 bits.
-            // r = RefKind. 2 bits.
+            // r = RefKind. 3 bits.
             // n = hasNameInMetadata. 1 bit.
 
             private const int WellKnownAttributeDataOffset = 0;
             private const int WellKnownAttributeCompletionFlagOffset = 8;
             private const int RefKindOffset = 16;
 
-            private const int RefKindMask = 0x3;
+            private const int RefKindMask = 0x7;
             private const int WellKnownAttributeDataMask = 0xFF;
             private const int WellKnownAttributeCompletionFlagMask = WellKnownAttributeDataMask;
 
-            private const int HasNameInMetadataBit = 0x1 << 18;
+            private const int HasNameInMetadataBit = 0x1 << 19;
 
             private const int AllWellKnownAttributesCompleteNoData = WellKnownAttributeCompletionFlagMask << WellKnownAttributeCompletionFlagOffset;
 
